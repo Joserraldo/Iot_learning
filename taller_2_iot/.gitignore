@@ -1,0 +1,8 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+wokwi/iot_configs.h
+wokwi/build/

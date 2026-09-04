@@ -1,0 +1,75 @@
+# Wokwi for CI and GitHub Actions | Wokwi Docs
+
+> Source: https://docs.wokwi.com/wokwi-ci/getting-started
+> Cached: 2026-09-03T18:49:20.692Z
+
+---
+
+- [](/)
+- Wokwi CI
+- Introduction
+
+On this page# Wokwi for CI and GitHub Actions
+
+Wokwi provides a robust simulation solution for automated testing of your embedded firmware on CI systems like [GitHub Actions](/wokwi-ci/github-actions), GitLab CI, and others. You can use Wokwi to run your tests on every commit, and get instant feedback on your code changes.
+
+Behind the scenes, Wokwi CI uses the same simulation engine that powers the [Wokwi Simulator](https://wokwi.com). The simulation runs in the cloud, and you can stream the serial output back to your CI system to verify that your firmware behaves as expected.
+
+## Wokwi in the Loop (WITL)[​](#wokwi-in-the-loop-witl)
+
+Wokwi in the Loop (WITL) is a testing methodology that combines the best of both worlds: the speed and convenience of unit testing with the realism of hardware testing. With WITL, you can run your firmware on a simulated hardware platform, interact with the firmware using virtual buttons and sensors, and verify the firmware&#x27;s behavior by checking the serial output.
+
+For basic testing scenarios, you can use the [Wokwi CLI](/wokwi-ci/cli-installation) to run your firmware on your local machine or CI system. The CLI allows you to start the simulation, check the serial output, and fail the test if the output does not match the expected value.
+
+For more advanced testing scenarios, you can write [automation scenarios](/wokwi-ci/automation-scenarios) that automate the simulation, push buttons, change the state of the sensors, and check the serial output.
+
+## CI Architecture[​](#ci-architecture)
+
+Wokwi CI is powered by a simulation server that runs in the cloud. The server receives your firmware binary, simulates it, and streams the serial output back to your CI system. The server is stateless and can run multiple simulations in parallel.
+
+Wokwi does not store your firmware, and it is deleted from the cloud server after the simulation is finished. If you do not want to upload your firmware to the cloud, please contact us to discuss options for on-premise deployment of Wokwi CI.
+
+## Simulation Time and Limits[​](#simulation-time-and-limits)
+
+The simulation time is calculated as the sum of the simulation time of all the tests in your CI workflow.
+
+Each user has a limit of simulation time per month, according to their Wokwi plan:
+
+- Free users: 50 minutes
+
+- Hobby and Hobby+ users: 200 minutes
+
+- Pro users: 2000 minutes
+
+For more information about the paid plans, please see the [Pricing page](https://wokwi.com/pricing).
+
+If you need more simulation time, please contact us to discuss options for a custom plan.
+
+### Limiting Individual Test Time[​](#limiting-individual-test-time)
+
+You can limit the simulation time for each test in your CI workflow using the `--timeout` option of the [CLI](/wokwi-ci/cli-usage). For example, to limit the simulation time to 10 seconds, use:
+
+```
+wokwi-cli --timeout 10000
+
+```
+
+## AI Agent Integration[​](#ai-agent-integration)
+
+The Wokwi CLI includes experimental support for the [Model Context Protocol (MCP)](/wokwi-ci/mcp-support), enabling AI agents to interact with Wokwi&#x27;s simulation capabilities. This allows AI assistants to run automated tests, simulate hardware behavior, and integrate Wokwi into AI-powered development workflows.
+
+## Next Steps[​](#next-steps)
+
+- [Install the Wokwi CLI](/wokwi-ci/cli-installation) to run your firmware on your local machine or CI system.
+
+- [Write automation scenarios](/wokwi-ci/automation-scenarios) to automate the simulation and test your firmware.
+
+- [Use Wokwi with GitHub Actions](/wokwi-ci/github-actions) to run your tests on every commit.
+
+- [Check out the example projects](/wokwi-ci/github-actions#examples) that are set up to run on Wokwi CI.
+
+- [Set up MCP support](/wokwi-ci/mcp-support) to integrate Wokwi with AI agents.
+
+- [Join the Wokwi Discord server](https://wokwi.com/discord) to get help and share your projects with the community.
+
+[Edit this page](https://github.com/wokwi/wokwi-docs/edit/main/docs/wokwi-ci/getting-started.md)

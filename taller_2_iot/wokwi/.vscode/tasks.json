@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compilar firmware ESP32 (arduino-cli)",
+      "type": "process",
+      "command": "C:\\Program Files\\Arduino CLI\\arduino-cli.exe",
+      "args": [
+        "compile",
+        "--fqbn",
+        "esp32:esp32:esp32",
+        "--build-path",
+        "build",
+        "."
+      ],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": [],
+      "detail": "Genera build/wokwi.ino.merged.bin que usa wokwi.toml"
+    },
+    {
+      "label": "Compilar y simular (Wokwi)",
+      "dependsOn": ["Compilar firmware ESP32 (arduino-cli)"],
+      "dependsOrder": "sequence",
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "Compila y luego abre el simulador Wokwi"
+    }
+  ]
+}

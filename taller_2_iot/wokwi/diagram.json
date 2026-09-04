@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "author": "UNAB-Ambiental",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht1",
+      "top": -50,
+      "left": -300,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "pot1",
+      "top": 0,
+      "left": -150,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 0,
+      "left": 200,
+      "attrs": {
+        "color": "red"
+      }
+    }
+  ],
+  "connections": [
+    ["esp:TX0",     "$serialMonitor:RX", "", []],
+    ["esp:RX0",     "$serialMonitor:TX", "", []],
+
+    ["esp:3V3",     "dht1:VCC", "red",    ["v0"]],
+    ["esp:GND.1",   "dht1:GND", "black",  ["v0"]],
+    ["esp:D15",     "dht1:SDA", "yellow", ["v0"]],
+
+    ["esp:3V3",     "pot1:VCC", "red",    ["v1"]],
+    ["esp:VP",      "pot1:SIG", "blue",   ["v1"]],
+    ["esp:GND.1",   "pot1:GND", "black",  ["v1"]],
+
+    ["esp:D2",      "led1:A",   "red",   ["v2"]],
+    ["esp:GND.1",   "led1:C",   "black", ["v2"]]
+  ],
+  "serialMonitor": {
+    "display": "terminal"
+  }
+}

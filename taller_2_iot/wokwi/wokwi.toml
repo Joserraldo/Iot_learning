@@ -1,0 +1,11 @@
+# Wokwi for VS Code — UNAB-Ambiental
+# Simulacion LOCAL (no depende de los servidores publicos de wokwi.com).
+# Requiere compilar antes de pulsar "Wokwi: Start Simulator":
+#   arduino-cli compile --fqbn esp32:esp32:esp32 --build-path build .
+# (ver tarea/README en la carpeta wokwi/).
+
+[wokwi]
+version = 1
+# Imagen de flash completa (bootloader + tabla de particiones + app):
+firmware = 'build/wokwi.ino.merged.bin'
+elf = 'build/wokwi.ino.elf'

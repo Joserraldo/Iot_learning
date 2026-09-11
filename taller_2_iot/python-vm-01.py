@@ -19,6 +19,8 @@ import json
 import os
 import random
 import threading
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 
 from dotenv import load_dotenv
@@ -116,7 +118,7 @@ HTML_PAGINA = """<!DOCTYPE html>
       <div class="controls">
         <div class="field">
           <label for="setInput">Nuevo Set_temp_hvac (°C)</label>
-          <input type="number" id="setInput" step="0.5" min="10" max="35" value="22">
+          <input type="number" id="setInput" step="0.5" min="16" max="32" value="22">
         </div>
         <button onclick="enviarSet()">Aplicar setpoint</button>
         <button class="sec" onclick="forzarLectura()">Forzar lectura</button>
@@ -256,8 +258,8 @@ def api_estado():
 def api_set_temp():
     data = request.get_json(force=True)
     valor = float(data.get("valor", 22.0))
-    # Acotar a rango razonable
-    valor = round(min(35, max(10, valor)), 1)
+    # Acotar al rango operativo del DTDL / modelo fisico (16..32, ver generar_lectura)
+    valor = round(min(32, max(16, valor)), 1)
     with dashboard_lock:
         dashboard["pending_set_temp"] = valor
         dashboard["comandos"].append(
@@ -287,7 +289,7 @@ def api_llamar_asesor():
             f"{datetime.now(timezone.utc).strftime('%H:%M:%S')} 📞 Asesor solicitado -> forzando T>27°C para email"
         )
         dashboard["comandos"] = dashboard["comandos"][-5:]
-    return jsonify({"msg": "📞 Asesor notificado: se enviará un correo (Rule T>27)."})
+    return jsonify({"msg": "📞 Asesor solicitado: correo via Brevo + Rule T>27 en Azure IoT Central."})
 
 
 def iniciar_dashboard(puerto: int = 5000):
@@ -308,6 +310,15 @@ PROVISIONING_HOST = "global.azure-devices-provisioning.net"
 INTERVALO_SEGUNDOS = int(os.environ.get("INTERVALO_SEGUNDOS", "10"))
 ID_SALON = os.environ.get("ID_SALON", "A-301")
 
+# Brevo (API de correos transaccionales). Sin EMAIL_API_KEY los correos se
+# omiten con un warning, nunca rompen la telemetria.
+EMAIL_API_KEY = os.environ.get("EMAIL_API_KEY", "").strip()
+EMAIL_REMITENTE = os.environ.get("EMAIL_REMITENTE", "").strip()
+EMAIL_DESTINATARIO = os.environ.get("EMAIL_DESTINATARIO", "jtellez312@unab.edu.co").strip()
+
+# Cooldown del aviso automatico de alerta por temperatura (10 minutos)
+COOLDOWN_ALERTA_SEGUNDOS = 600
+
 # Estado interno del "gemelo" simulado por el script
 estado = {
     "temperature": 24.0,
@@ -315,6 +326,84 @@ estado = {
     "iluminance": 400.0,
     "set_temp_hvac": 22.0,
 }
+
+# Estado del trigger automatico de alerta T>27 (borde de subida + cooldown).
+# Solo los toca el loop asyncio de enviar_telemetria_periodica / boton asesor.
+_sem_estaba_caliente = False
+_sem_ultimo_email = None  # datetime UTC del ultimo intento de correo de alerta
+
+
+def enviar_email_brevo(asunto: str, cuerpo_html: str) -> bool:
+    """Envia un correo transaccional via la API REST de Brevo
+    (POST https://api.brevo.com/v3/smtp/email con header 'api-key').
+
+    Usa solo stdlib (urllib), sin dependencias nuevas. Es sincronica y a
+    prueba de fallos: nunca lanza excepciones (para no tumbar la telemetria);
+    se llama desde asyncio con asyncio.to_thread.
+    Retorna True solo con HTTP 201 (messageId en la respuesta)."""
+    if not EMAIL_API_KEY:
+        print("[Email Brevo] OMITIDO: falta EMAIL_API_KEY en .env")
+        return False
+    # Brevo exige un remitente verificado en la cuenta; si no se define
+    # EMAIL_REMITENTE se usa el del propio destinatario (verificado por el usuario).
+    remitente = EMAIL_REMITENTE or EMAIL_DESTINATARIO
+    payload = {
+        "sender": {"name": f"Nodo Python VM {ID_SALON}", "email": remitente},
+        "to": [{"email": EMAIL_DESTINATARIO}],
+        "subject": asunto,
+        "htmlContent": cuerpo_html,
+    }
+    peticion = urllib.request.Request(
+        "https://api.brevo.com/v3/smtp/email",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "api-key": EMAIL_API_KEY,
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(peticion, timeout=15) as respuesta:
+            cuerpo = json.loads(respuesta.read().decode("utf-8"))
+            print(f"[Email Brevo] 201 OK messageId={cuerpo.get('messageId', '?')} asunto={asunto!r}")
+            return True
+    except urllib.error.HTTPError as err:
+        # Brevo responde el detalle en el cuerpo JSON (401 llave invalida,
+        # 400 remitente no verificado, 429 cuota...). Nunca relanzar.
+        detalle = err.read().decode("utf-8", "replace")[:300]
+        print(f"[Email Brevo] ERROR HTTP {err.code}: {detalle}")
+        return False
+    except Exception as err:  # redes fuera de linea, timeouts, JSON inesperado
+        print(f"[Email Brevo] ERROR: {err}")
+        return False
+
+
+def construir_html_estado(nota: str, lectura: dict, semaforo: str) -> str:
+    """Cuerpo HTML comun de los correos: nota + tabla simple con el estado actual."""
+    hora = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    filas = [
+        ("Temperature", f"{lectura['Temperature']} °C"),
+        ("Humidity", f"{lectura['Humidity']} %RH"),
+        ("Iluminance", f"{lectura['Iluminance']} lux"),
+        ("Set_temp_hvac", f"{estado['set_temp_hvac']} °C"),
+        ("Estado_semaforo_LED", semaforo),
+        ("ID_salon", ID_SALON),
+        ("Hora", hora),
+    ]
+    tabla = "".join(
+        f"<tr><td style='padding:6px 12px;border:1px solid #ccc'>{clave}</td>"
+        f"<td style='padding:6px 12px;border:1px solid #ccc;font-weight:bold'>{valor}</td></tr>"
+        for clave, valor in filas
+    )
+    return (
+        f"<html><body style='font-family:Arial,sans-serif'>"
+        f"<p>{nota}</p>"
+        f"<table style='border-collapse:collapse'>{tabla}</table>"
+        f"<p style='color:#888;font-size:12px'>Enviado automaticamente por el nodo Python "
+        f"del salon {ID_SALON} (UNAB-Ambiental · Laboratorio 2).</p>"
+        f"</body></html>"
+    )
 
 
 def calcular_semaforo(temp: float) -> str:
@@ -329,8 +418,16 @@ def calcular_semaforo(temp: float) -> str:
 def generar_lectura() -> dict:
     """Camina aleatoriamente dentro de los rangos operativos del DTDL
     (16-32 C, 35-70 %RH, 100-800 lux) para que los datos sean coherentes,
-    sin saltos irreales entre una lectura y la siguiente."""
-    estado["temperature"] = round(min(32, max(16, estado["temperature"] + random.uniform(-0.6, 0.6))), 1)
+    sin saltos irreales entre una lectura y la siguiente.
+
+    La temperatura ahora CONVERGE hacia Set_temp_hvac (modelo simple de
+    primer orden): el setpoint writable afecta la T real del salon.
+    Factor 0.15 elegido a proposito: una T forzada alta (~29-31) sigue
+    >27 durante varios ciclos de 10s (la Rule de Azure dispara) y aun asi
+    el setpoint se ve en la curva en ~2 min."""
+    setpoint = estado["set_temp_hvac"]
+    t = estado["temperature"] + (setpoint - estado["temperature"]) * 0.15 + random.uniform(-0.4, 0.4)
+    estado["temperature"] = round(min(32, max(16, t)), 1)
     estado["humidity"] = round(min(70, max(35, estado["humidity"] + random.uniform(-1.5, 1.5))), 1)
     estado["iluminance"] = round(min(800, max(100, estado["iluminance"] + random.uniform(-20, 20))), 1)
     return {
@@ -407,8 +504,9 @@ async def manejar_property_writable(client: IoTHubDeviceClient):
 
 async def enviar_telemetria_periodica(client: IoTHubDeviceClient):
     """Publica las 3 variables cada N segundos, actualiza las 2 properties
-    de solo lectura, aplica setpoint/asesor pendientes desde la web y guarda
-    historial para el dashboard."""
+    de solo lectura, aplica setpoint/asesor pendientes desde la web, dispara
+    alertas por correo (Brevo) y guarda historial para el dashboard."""
+    global _sem_estaba_caliente, _sem_ultimo_email
     while True:
         # ---- Consumir acciones encoladas desde la web (hilo Flask) ----
         with dashboard_lock:
@@ -432,12 +530,57 @@ async def enviar_telemetria_periodica(client: IoTHubDeviceClient):
             # Forzar temperatura > 27 para que la Rule del correo se dispare
             estado["temperature"] = round(random.uniform(28.5, 31.0), 1)
             print("[Asesor] Temperatura forzada por encima de 27°C para disparar Rule de email")
+            # Correo Brevo INMEDIATO (sin cooldown) avisando del llamado de asesor
+            lectura_asesor = {
+                "Temperature": estado["temperature"],
+                "Humidity": estado["humidity"],
+                "Iluminance": estado["iluminance"],
+            }
+            html_asesor = construir_html_estado(
+                "El boton <b>Llamar asesor</b> fue presionado en el dashboard.",
+                lectura_asesor, calcular_semaforo(estado["temperature"]),
+            )
+            exito_asesor = await asyncio.to_thread(
+                enviar_email_brevo, f"[LLAMADO] Asesor solicitado - Salon {ID_SALON}", html_asesor
+            )
+            with dashboard_lock:
+                dashboard["comandos"].append(
+                    f"{datetime.now(timezone.utc).strftime('%H:%M:%S')} 📞 Email Brevo asesor: "
+                    + ("enviado (exito)" if exito_asesor else "omitido (sin llave o fallo)")
+                )
+                dashboard["comandos"] = dashboard["comandos"][-5:]
+            # Marcar el estado "caliente" para que el trigger automatico T>27
+            # no duplique el aviso en el mismo episodio
+            _sem_estaba_caliente = True
+            _sem_ultimo_email = datetime.now(timezone.utc)
 
         lectura = generar_lectura()
         await client.send_message(json.dumps(lectura))
         print(f"[{datetime.now(timezone.utc).isoformat()}] Enviado: {lectura}")
 
         semaforo = calcular_semaforo(lectura["Temperature"])
+
+        # ---- Alerta automatica por correo (Brevo) en borde de subida T>27 ----
+        # Borde de subida: solo al pasar de <=27 a >27. Cooldown de 10 min para
+        # no spamear si la temperatura oscila alrededor del umbral.
+        ahora_utc = datetime.now(timezone.utc)
+        caliente = lectura["Temperature"] > 27
+        if caliente and not _sem_estaba_caliente:
+            fuera_de_cooldown = (
+                _sem_ultimo_email is None
+                or (ahora_utc - _sem_ultimo_email).total_seconds() > COOLDOWN_ALERTA_SEGUNDOS
+            )
+            if fuera_de_cooldown:
+                html_alerta = construir_html_estado(
+                    "La temperatura del salon supero el umbral de 27°C (Rule T>27).",
+                    lectura, semaforo,
+                )
+                await asyncio.to_thread(
+                    enviar_email_brevo, f"[ALERTA] Salon {ID_SALON}: temperatura alta", html_alerta
+                )
+                _sem_ultimo_email = ahora_utc
+        _sem_estaba_caliente = caliente
+
         await client.patch_twin_reported_properties(
             {"ID_salon": ID_SALON, "Estado_semaforo_LED": semaforo}
         )

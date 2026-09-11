@@ -1,18 +1,14 @@
 # Mission Status
 
 ## Progress
-- .opencode/todo.md: 33/33 checkboxes [x] (100% ejecutable por el agente); 0 pendientes; 0 M/T con status no-completed
-- Issues: 0 unresolved (sync-issues.md vacío)
-- Workers: 0 active
-- Verification Strategy: toolchain + compilación reproducible (exit 0) + imagen ESP32 validada (magic bytes/offsets). Runtime = handoff GUI/cuenta del usuario (documentado en wokwi/README.md).
-- Execution Status: pass (build verificado 2x, exit 0)
+- .opencode/todo.md: 12/12 (100%) + Fix #1 clamp 16..32 + Brevo LIVE
+- Issues: 0 abiertos. Traceback=0. md5 local==VM 8b2a31f7
+- Execution Status: pass
 
-## Current Phase
-M6 Wokwi local en VS Code — COMPLETADO (toolchain, compile, config, validación, handoff).
+## Hitos de correo (prueba real 16:45:53 UTC)
+- Llave Brevo en ~/taller_iot/.env (chmod 600, EMAIL_REMITENTE/DESTINATARIO=jtellez312@unab.edu.co). GET /v3/account = 200.
+- POST /api/llamar-asesor => [Email Brevo] 201 messageId=<202609101645.24446317629@smtp-relay.mailin.fr>. T forzada 28.2 publicada (Rule Azure tambien dispara).
 
-## Handoff (usuario, fuera de scope del agente)
-1. Reiniciar VS Code → abrir carpeta `wokwi/`
-2. F1 → Wokwi: Request a new License (gratis, una vez)
-3. Ctrl+Shift+B (compilar) → F1 → Wokwi: Start Simulator
-4. Verificar `esp32-wokwi-01` Conectado en Azure IoT Central
-- Opcional: verificación headless por el agente con WOKWI_CLI_TOKEN.
+## Pendientes esteticos
+- Remitente no verificado en Brevo => posible spam. Verificar sender en Brevo (Senders, domains & IPs) si llega a spam.
+- La llave existio en chat del usuario: rotarla en Brevo si se comparte el repo/capturas.

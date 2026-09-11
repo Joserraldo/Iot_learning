@@ -29,12 +29,23 @@
 - USUARIO va a APAGAR LA VM desde Azure (Stop). Retomar mañana: Start → SSH → bash ~/taller_iot/start.sh → tail run.log.
 - La IP se mantiene al apagar (IP pública Azure).
 
-## Pending Tasks
-1. [ ] Probar botón "Llamar asesor" en :5000 → confirmar email llega a jtellez312@unab.edu.co
-2. [~] Wokwi: toolchain + firmware LISTOS (VS Code local). Falta runtime: usuario activa licencia Wokwi (F1) + Ctrl+Shift+B + Start Simulator. Opcional: verificar headless con WOKWI_CLI_TOKEN.
-3. [ ] Tomar 8 capturas en /evidencias (lista exacta en docs/bitacora.md)
-4. [x] Actualizar todo.md/status.md/work-log con enfoque Wokwi-VS-Code
-5. [ ] Validar en vivo Rule T>27 (semáforo rojo + email)
+## Current Status (2026-09-10 ~16:00) — BREVO + HVAC SETPOINT VERIFICADO EN VM
+- Misión "Brevo emails (asesor + T>27) + Set_temp_hvac afecta temperatura real + deploy VM" **COMPLETA Y VERIFICADA** (todo.md 10/10, evidencia en `.opencode/integration-status.md`, Reviewer ses_9).
+- `python-vm-01.py` md5 `81651aa57ee74dfadf5199d9d56982bf` (local == VM), corriendo en VM, 0 traceback.
+- `Set_temp_hvac` (writable) ahora converge la temperatura real (factor 0.15/ciclo): probado 21.6→28.1 con setpoint 30 y 28.2→22.2 al bajar.
+- Botón "Llamar asesor" fuerza T 28.5–31 y queda >27 varios ciclos (margen para la Rule de Azure); envía correo Brevo inmediato.
+- Alerta automática T>27 (borde de subida + cooldown 10 min) integrada vía helper Brevo (stdlib urllib).
+- `.env` local y VM con bloque `EMAIL_API_KEY=` (vacío), `EMAIL_REMITENTE=` (vacío), `EMAIL_DESTINATARIO=jtellez312@unab.edu.co`. Sin llave los correos se OMITEN sin romper telemetría.
+- Dashboard público `http://57.156.62.111:5000` responde 200 desde red externa (`/api/estado`, `/api/set-temp`, `/api/llamar-asesor`, `/api/force-reading`).
+- Setpoint final dejado en valor nominal 22.0 °C tras las pruebas.
+
+## Pendientes de USUARIO (fuera del scope de esta misión — no son TODO del mission control)
+- (usuario) Confirmar entrega real del correo: poner `EMAIL_API_KEY` de Brevo en `.env` de la VM y reiniciar `bash ~/taller_iot/start.sh`; revisar bandeja jtellez312@unab.edu.co (la ruta 201/messageId ya está implementada y probada en modo OMITIDO).
+- (usuario) Validar en el portal IoT Central la Rule "Alerta Temperatura alta" T>27 con la telemetría real ya enviada (semáforo rojo + email del hub).
+- (usuario) Wokwi runtime: activar licencia Wokwi en VS Code (F1) + Ctrl+Shift+B + Start Simulator. Toolchain y firmware ya listos (ses_7). Opcional headless con `WOKWI_CLI_TOKEN`.
+- (usuario) Tomar 8 capturas en `/evidencias` (lista exacta en `docs/bitacora.md`).
+- (hecho) Actualizar todo.md/status.md/work-log con enfoque Wokwi-VS-Code — completado ses_7/ses_8/ses_9.
+
 
 ## Notes
 - Nunca imprimir/commitear secretos. wokwi/iot_configs.h tiene key real → .gitignore

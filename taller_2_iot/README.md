@@ -21,11 +21,14 @@ El sistema registra y envía telemetría de temperatura, humedad e iluminación.
 ## Funcionalidades implementadas
 
 - Envío periódico de `Temperature`, `Humidity` e `Iluminance` a Azure IoT Central.
-- Visualización de lecturas, historial y estado del sistema en el dashboard Flask.
-- Actualización de la propiedad `Set_temp_hvac`.
+- Visualización de lecturas, historial y estado del sistema en el dashboard Flask, publicado en `http://57.156.62.111:5000`.
+- Actualización de la propiedad `Set_temp_hvac` (writable) que **afecta físicamente la temperatura del nodo**: la temperatura converge hacia el setpoint con un modelo de primer orden (~2 min).
 - Comando `Encender_hvac` para alternar el LED del ESP32.
 - Comando `force_reading` para solicitar una lectura inmediata.
 - Regla de alerta en Azure IoT Central que envía un correo cuando la temperatura supera los 27 °C.
+- **Correos de alerta propios vía Brevo** (API transaccional, sin librerías externas):
+  - Botón *Llamar asesor* → correo inmediato al asesor + fuerza T>27 para disparar también la Rule de Azure (doble canal).
+  - Alerta automática al cruzar T>27 (borde de subida + cooldown de 10 min para no spamear).
 - Verificación de la comunicación entre Azure IoT Central, la VM y el ESP32 simulado.
 
 ## Resultado
@@ -38,6 +41,7 @@ El taller fue completado y verificado satisfactoriamente. Se confirmó que:
 - El ESP32 simulado se conecta a Azure IoT Central mediante Wokwi.
 - El ESP32 envía telemetría y responde a los comandos configurados.
 - La regla de alerta de temperatura queda configurada en IoT Central.
+- Se confirmó recepción real de los correos de Brevo (`HTTP 201` + `messageId` en el log del nodo).
 
 ## Documentación
 

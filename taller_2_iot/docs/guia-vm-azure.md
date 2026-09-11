@@ -17,8 +17,9 @@ Proceso **cada vez que prendemos la VM** de Azure donde corre el nodo Python
 | Ruta remota del proyecto | `~/taller_iot/` |
 | Script del nodo | `~/taller_iot/python-vm-01.py` |
 | Arranque en background | `~/taller_iot/start.sh` → escribe `~/taller_iot/run.log` |
-| Dashboard | puerto `5000` dentro de la VM (NO expuesto; ver paso 4 con túnel) |
+| Dashboard | **Público:** `http://57.156.62.111:5000` (NSG abre TCP/5000; túnel SSH sigue como alternativa) |
 | Device IoT Central (VM) | `23z8rpgm6s4` (plantilla `consola-unab-ambiental`) |
+| Correos de alerta | Brevo — `EMAIL_API_KEY` en `~/taller_iot/.env` (chmod 600, nunca en el repo) |
 
 **Helpers** (en `tools/`, usan `paramiko`, credenciales por env):
 - `vm_ssh.py "<comando bash>"` → ejecuta un comando en la VM.
@@ -65,23 +66,46 @@ MSYS_NO_PATHCONV=1 python tools/vm_ssh.py "bash ~/taller_iot/start.sh"
 MSYS_NO_PATHCONV=1 python tools/vm_ssh.py "tail -n 25 ~/taller_iot/run.log"
 ```
 
-## 5. Ver el dashboard desde tu PC (túnel SSH)
-El puerto 5000 no es accesible desde fuera (firewall de nube). Dos opciones:
+## 5. Ver el dashboard (ahora es público)
 
-**Opción A — comando ssh manual (pides la clave tú):**
+**Opción directa (la normal):** abre en el navegador
+```
+http://57.156.62.111:5000
+```
+- ⚠️ Escribe **`http://` completo**. Chrome fuerza `https://` al escribir solo la IP y Flask solo habla HTTP → parece que "no abre" (error de conexión, cuando el servidor está perfecto). Si Chrome insiste, Firefox.
+- API de estado: `http://57.156.62.111:5000/api/estado`
+- Endpoints de control: `POST /api/set-temp {"valor":22}` · `POST /api/force-reading` · `POST /api/llamar-asesor`
+
+**Opción túnel SSH (fallback si el NSG se cierra):**
 ```bash
-ssh -L 5000:localhost:5000 jtellez312@57.156.62.111
+ssh -L 5000:localhost:5000 jtellez312@57.156.62.111   # → http://localhost:5000
+# o: python tools/vm_tunnel.py --local 5000 --remote 5000
 ```
 
-**Opción B — helper con paramiko (sin prompt de clave, usa `VM_*` del paso 2):**
-```bash
-python tools/vm_tunnel.py --local 5000 --remote 5000
-# o con archivo de credenciales temporal:
-python tools/vm_tunnel.py --creds "%TEMP%\opencode\vm_creds.txt" --local 5000 --remote 5000
-```
-Deja corriendo el túnel y abre en el navegador **http://localhost:5000**.
-- API de estado: `http://localhost:5000/api/estado`
-- Botón "Llamar asesor" → `POST /api/llamar-asesor` (fuerza T>27 para disparar la Rule de email).
+## 5.1 Correos de alerta (Brevo)
+
+El nodo envía correos por su cuenta **además** de la Rule de IoT Central:
+
+| Cuándo | Asunto |
+|---|---|
+| Botón *Llamar asesor* | `[LLAMADO] Asesor solicitado - Salon A-301` (inmediato, sin cooldown) |
+| T cruza >27 °C (borde de subida) | `[ALERTA] Salon A-301: temperatura alta` (cooldown 10 min) |
+
+**Configurar desde cero:**
+1. [app.brevo.com](https://app.brevo.com) → cuenta free (300 correos/día).
+2. Settings → **SMTP & API** → *Generate API key* (`xkeysib-...`).
+3. Verifica el remitente en *Senders, domains & IPs* (si no, el correo puede caer en **spam**).
+4. En la VM:
+   ```bash
+   python tools/vm_ssh.py "nano ~/taller_iot/.env"
+   # EMAIL_API_KEY=xkeysib-...
+   # EMAIL_REMITENTE=correo-verificado@...
+   # EMAIL_DESTINATARIO=jtellez312@unab.edu.co
+   python tools/vm_ssh.py "chmod 600 ~/taller_iot/.env && bash ~/taller_iot/start.sh"
+   ```
+5. Prueba: `POST /api/llamar-asesor` → en `run.log` debe aparecer
+   `[Email Brevo] 201 OK messageId=<...@smtp-relay.mailin.fr>`.
+   - `401` → llave inválida. `400` remitente no verificado. Sin llave → `OMITIDO` (la telemetría sigue igual).
 
 ## 6. Subir cambios de código (si editaste python-vm-01.py en local)
 ```bash
@@ -102,7 +126,7 @@ Portal → VM → **Stop** (deallocate). La IP pública se mantiene.
 ## Troubleshooting
 - **"faltan VM_HOST/VM_USER/VM_PASS":** no exportaste las variables en esta terminal.
 - **Timeout en SSH:** VM apagada o *Starting*; o tu IP pública cambió y el NSG la bloquea (Network security group → inbound rule TCP/22).
-- **Dashboard no carga en :5000:** revisa `run.log` (¿el Flask levantó? ¿el script murió?). El túnel debe estar abierto (paso 5).
+- **Dashboard no carga en :5000:** primero que sea `http://` (no https, paso 5). Luego revisa `run.log` (¿el Flask levantó? ¿el script murió?). Si el NSG cerró el puerto, usa el túnel del paso 5.
 - **`start.sh` no existe en la VM:** se perdió (VM reimagen). Recrear:
   ```bash
   MSYS_NO_PATHCONV=1 python tools/vm_ssh.py "cat > ~/taller_iot/start.sh <<'EOF'
@@ -121,5 +145,5 @@ Portal → VM → **Stop** (deallocate). La IP pública se mantiene.
 export VM_HOST=57.156.62.111 VM_USER=jtellez312; read -s VM_PASS && export VM_PASS
 MSYS_NO_PATHCONV=1 python tools/vm_ssh.py "bash ~/taller_iot/start.sh"
 MSYS_NO_PATHCONV=1 python tools/vm_ssh.py "tail -n 25 ~/taller_iot/run.log"
-ssh -L 5000:localhost:5000 jtellez312@57.156.62.111   # → http://localhost:5000
+# dashboard: http://57.156.62.111:5000   (o túnel: ssh -L 5000:localhost:5000 jtellez312@57.156.62.111)
 ```

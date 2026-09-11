@@ -236,3 +236,61 @@
 - **Fix de watchdog en `wokwi.ino` (`setup()`):** en Wokwi el handshake TLS es muy lento por el tope de CPU del simulador y el IDLE task no resetea el *Task Watchdog* a tiempo → reboot a mitad de la conexión. Solución: `esp_task_wdt_delete(NULL)` + reconfigurar a 60 s con `trigger_panic=false`. Sin esto, la simulación reiniciaba antes de completar DPS.
 - **Error benigno conocido en el serial (no requiere fix):** `No PUBLISH notification expected` al conectar al hub — ocurre cuando IoT Central tenía un comando encolado (`force_reading`) que llega mientras la máquina de estados del ejemplo aún está procesando el SUBACK. El comando encolado se pierde, pero los comandos posteriores se reciben y responden correctamente (verificado: `Encender_hvac`/`force_reading` entregados y respondidos).
 - **Orden de la bitácora:** las entradas del 02-09 no están estrictamente cronológicas (21:20 aparece tras 21:25, etc.); se deja así por ser registro histórico, no se reescriben.
+
+## [2026-09-10 12:00] Dashboard publicado en internet + diagnóstico del navegador
+- **Qué se confirmó:** el dashboard Flask es ahora **accesible desde internet** en `http://57.156.62.111:5000` (el grupo de seguridad de la VM ya permite el puerto 5000; ya no hace falta túnel SSH). Verificado desde red externa: `GET /api/estado` → HTTP 200 con datos en vivo.
+- **Problema reportado por el usuario:** "no abre en el navegador". **Causa:** Chrome fuerza `https://` al escribir solo la IP, y Flask solo habla HTTP → error de conexión. Los logs de `run.log` lo prueban (handshakes TLS rechazados con 400).
+- **Solución:** escribir el protocolo completo `http://57.156.62.111:5000` (o usar Firefox). No es un bug del servidor.
+
+## [2026-09-10 12:30] Set_temp_hvac (writable) ahora AFECTA la temperatura real del nodo
+- **Qué se hizo:** `generar_lectura()` cambió de caminata aleatoria pura a un **modelo de primer orden**: la temperatura converge hacia el setpoint en cada ciclo de 10 s:
+  ```python
+  t = estado["temperature"] + (setpoint - estado["temperature"]) * 0.15 + random.uniform(-0.4, 0.4)
+  estado["temperature"] = round(min(32, max(16, t)), 1)
+  ```
+- **Por qué:** el taller exigía que la property writable tuviera un efecto físico real en el gemelo, no solo guardarse. Ahora cambiar `Set_temp_hvac` (desde IoT Central o desde el dashboard) **mueve la temperatura del salón** en vivo (~2 min de convergencia).
+- **El factor 0.15 es intencional:** al forzar T≈29–31 °C con el botón de asesor, la temperatura se mantiene >27 durante varios ciclos (la Rule de Azure dispara con holgura) y aun así se ve la curva bajar hacia el setpoint.
+- **Evidencia en vivo:** setpoint 30 → T subió 21.6→22.6→23.8→…→28.1 (monótono); setpoint 16 → T bajó 28.2→…→22.2. Probado bidireccional.
+- **Fix asociado (hallazgo de revisión):** el endpoint `POST /api/set-temp` acotaba 10–35 °C, fuera del rango DTDL (16–32). Se alineó el clamp a **16..32** en backend (`valor = round(min(32, max(16, valor)), 1)`) y en el input HTML (`min="16" max="32"`). Probado: `POST {"valor":5}` → responde `Set_temp_hvac = 16°C`.
+
+## [2026-09-10 13:00] Correo de alertas PROPIO vía Brevo (API transaccional)
+- **Contexto:** la Rule de IoT Central solo entrega correos a **usuarios de la app** (rol Viewer) — el correo del profesor nunca llegaba por eso. Solución elegida: servicio externo **Brevo** (plan free, 300 correos/día) llamado directamente desde el nodo Python.
+- **Implementación (todo en `python-vm-01.py`, solo stdlib — sin dependencias nuevas):**
+  - `enviar_email_brevo(asunto, html)`: `POST https://api.brevo.com/v3/smtp/email` con header `api-key`, vía `urllib.request`. Sincronica y **a prueba de fallos**: nunca lanza excepción (no tumba la telemetría); retorna True solo con HTTP 201 (registra `messageId`); captura `HTTPError` con el detalle JSON de Brevo (401 llave inválida, 400 remitente no verificado, 429 cuota).
+  - Se llama con `asyncio.to_thread()` para no bloquear el loop de telemetría.
+  - `construir_html_estado()`: cuerpo HTML común — tabla con Temperature, Humidity, Iluminance, Set_temp_hvac, semáforo, ID_salon y hora UTC.
+- **Dos disparadores de correo:**
+  1. **Botón "Llamar asesor"** → correo **inmediato** `[LLAMADO] Asesor solicitado - Salon A-301` + fuerza T>27 (doble canal: Brevo propio + Rule de Azure). Marca el estado "caliente" para que el trigger automático no duplique el aviso.
+  2. **Alerta automática T>27** → correo `[ALERTA] Salon A-301: temperatura alta` solo en **borde de subida** (cruza de ≤27 a >27) con **cooldown de 10 min** — evita spam si la temperatura oscila alrededor del umbral (sin estas guardas, el nodo enviaría un correo cada 10 s).
+- **Configuración (`.env`, cero secretos en el código):**
+  ```
+  EMAIL_API_KEY=xkeysib-...        # Brevo → Settings → SMTP & API
+  EMAIL_REMITENTE=jtellez312@unab.edu.co
+  EMAIL_DESTINATARIO=jtellez312@unab.edu.co
+  ```
+  En la VM el `.env` quedó con `chmod 600`. Sin `EMAIL_API_KEY`, todo funciona igual y los correos se registran como `OMITIDO` en `run.log` (probado).
+- **Evidencia de envío REAL (16:45:53 UTC):**
+  ```
+  [Asesor] Temperatura forzada por encima de 27°C para disparar Rule de email
+  [Email Brevo] 201 OK messageId=<202609101645.24446317629@smtp-relay.mailin.fr> asunto='[LLAMADO] Asesor solicitado - Salon A-301'
+  Enviado: {'Temperature': 28.2, ...}   ← T>27 publicada → también dispara la Rule de Azure
+  ```
+  El usuario confirmó recepción del correo. ✅
+- **Nota de deliverability:** la cuenta Brevo aún no tiene el remitente verificado (`/v3/account` → `senders: []`); el correo puede caer en **spam**. Fix: Brevo → *Senders, domains & IPs* → verificar el correo/dominio UNAB.
+- **Nota de seguridad:** la API key quedó escrita en el chat de trabajo; si el repo o las capturas se comparten, **rotarla** en Brevo. La llave solo vive en `~/taller_iot/.env` y en el `.env` local (ambos gitignore); nunca en `python-vm-01.py`.
+
+## [2026-09-10 13:10] Runbook: desplegar y probar los correos desde Windows
+```powershell
+cd taller_2_iot
+# 1. Editar python-vm-01.py y compilar antes de subir
+python -m py_compile python-vm-01.py
+# 2. Credenciales SSH solo por variables de entorno (no se guardan en el repo)
+$env:VM_HOST='57.156.62.111'; $env:VM_USER='jtellez312'; $env:VM_PASS='<passwd>'
+# 3. Subar y reiniciar (start.sh hace pkill + setsid nohup > run.log)
+python tools\vm_push.py python-vm-01.py /home/jtellez312/taller_iot/python-vm-01.py
+python tools\vm_ssh.py "bash ~/taller_iot/start.sh; sleep 25; tail -8 ~/taller_iot/run.log"
+# 4. Prueba funcional del botón de asesor
+Invoke-RestMethod -Uri 'http://57.156.62.111:5000/api/llamar-asesor' -Method Post
+python tools\vm_ssh.py "grep 'Email Brevo' ~/taller_iot/run.log | tail -3"
+```
+- **Verificaciones automáticas usadas en esta sesión:** sync md5 local==VM, `grep -c Traceback run.log` = 0, `GET /api/estado` externo, convergencia T→setpoint observada en el historial, y 201+messageId de Brevo en el log.

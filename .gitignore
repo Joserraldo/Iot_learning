@@ -1,0 +1,6 @@
+# Proteccion preventiva contra secretos en logs de agentes/sesiones (SYNC-1).
+# El historial git (ada84b1) esta limpio; este fix evita futuros `git add .` con .opencode/.
+# Basura Python global (taller_2_iot/.gitignore ya cubre su subdirectorio).
+__pycache__/
+*.pyc
+.opencode/

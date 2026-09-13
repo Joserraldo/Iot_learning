@@ -1,0 +1,15 @@
+# Evidencia Etapa 1.2 — registro DPS del ESP32 simulado (Wokwi), SOLO register()
+# Comando: ./taller_2_iot/.venv/Scripts/python.exe "C:/Users/jose/AppData/Local/Temp/opencode/lab3_t21/dps_wokwi.py"
+# Fecha: 2026-09-11 13:07 local (18:07 UTC) | cwd: raiz del repo | exit code: 0
+# Credenciales leidas de taller_2_iot/wokwi/iot_configs.h (defines) SOLO en memoria;
+#   IOT_CONFIG_DEVICE_KEY jamas se imprime ni se escribe aqui.
+# Alcance: UNIQUEMENTe ProvisioningDeviceClient.register() (async). NO connect al hub, NO telemetria.
+# Redaccion: grep -oE "[A-Za-z0-9+/]{44}" sobre el stdout → 0 coincidencias (sin keys en la salida).
+
+id_scope: 0ne0128547D
+registration_id: esp32-wokwi-01
+status: assigned
+assigned_hub: iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net
+assigned_device_id: esp32-wokwi-01
+sub_status: initialAssignment
+last_update_date_time: 2026-09-11T18:07:12.4093988Z

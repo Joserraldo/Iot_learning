@@ -1,0 +1,37 @@
+{"evt": "START", "qos": 2, "interval_s": 10, "duration_s": 30, "hostname": "iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net", "device_id": "23z8rpgm6s4", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+{"evt": "PACKET", "dir": "SEND", "type": "CONNECT", "mid": null}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 1}
+{"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 2}
+{"evt": "PACKET", "dir": "RECV", "type": "CONNACK", "mid": null}
+{"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 3}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 4}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 5}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 6}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 7}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 1}
+{"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 328.2, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBLISH", "mid": 0}
+{"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=44162", "bytes": 0, "ts": "19:52:46.752Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBLISH", "mid": 0}
+{"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 190, "ts": "19:52:46.786Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44162, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0, "firmwareVersion": "1.0.0-python-vm", "ipAddress": "172.16.0.4"}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 8}
+{"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 8}
+{"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 216.4, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 9}
+{"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 9}
+{"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 213.8, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "DISCONNECT", "mid": null}
+{"evt": "DISCONNECT", "rc": "Normal disconnection", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+{"evt": "SUMMARY", "qos": 2, "publicados": 3, "acks": 3, "conexiones": 1, "rtt_ms_avg": 252.8, "rtt_ms_min": 213.8, "rtt_ms_max": 328.2, "mensajes_recibidos": 2, "tabla": [{"seq": 1, "bytes": 60, "t_pub": "19:52:46.397Z", "t_ack": "19:52:46.725Z", "rtt_ms": 328.2, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 2, "bytes": 60, "t_pub": "19:52:56.405Z", "t_ack": "19:52:56.621Z", "rtt_ms": 216.4, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 3, "bytes": 60, "t_pub": "19:53:06.412Z", "t_ack": "19:53:06.625Z", "rtt_ms": 213.8, "qos": 2, "gap_vs_cfg_s": null}]}

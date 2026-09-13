@@ -1,0 +1,3 @@
+# Laboratorio 3 — cliente MQTT explicito (abrir la caja negra)
+# Solo paho-mqtt: deliberadamente NO se instala azure-iot-device.
+paho-mqtt>=2.1

@@ -305,6 +305,14 @@ static void read_sensors(float* temperature, float* humidity, float* iluminance)
     *temperature = 24.0f;
     *humidity = 50.0f;
   }
+
+  LogInfo(
+      "Sensores: T=%.1f C, H=%.1f %%, Lux=%.0f, Set_temp_hvac=%.1f C, LED=%s",
+      *temperature,
+      *humidity,
+      *iluminance,
+      set_temp_hvac,
+      led_on ? "ON" : "OFF");
 }
 
 static int send_led_state_reported(azure_iot_t* azure_iot)

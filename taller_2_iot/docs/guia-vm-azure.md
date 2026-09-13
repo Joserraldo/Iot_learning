@@ -25,6 +25,8 @@ Proceso **cada vez que prendemos la VM** de Azure donde corre el nodo Python
 - `vm_ssh.py "<comando bash>"` → ejecuta un comando en la VM.
 - `vm_push.py <local> <remoto>` → sube un archivo (por base64, robusto con rutas).
 - `vm_upload.py <local> <remoto>` → sube un archivo (por SFTP).
+- `vm_restore.py [--dry-run]` → post-Reset-password: valida login, arranca el
+  nodo si no corre, revisa `run.log` y el dashboard (`/api/estado`) en un solo paso.
 
 ---
 

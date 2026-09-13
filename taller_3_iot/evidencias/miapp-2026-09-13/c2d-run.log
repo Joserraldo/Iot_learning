@@ -1,0 +1,58 @@
+[22:21:30.051Z] {"evt": "START", "qos": 1, "interval_s": 10, "duration_s": 240, "hostname": "iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net", "device_id": "23z8rpgm6s4", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+[22:21:30.638Z] {"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:21:30.755Z] {"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[22:21:30.959Z] {"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 321.1, "rc": "Success", "qos_eff": 1}
+[22:21:30.995Z] {"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=44706", "bytes": 0, "ts": "22:21:30.994Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[22:21:31.024Z] {"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[22:21:31.025Z] {"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[22:21:31.025Z] {"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[22:21:31.025Z] {"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[22:21:31.028Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 190, "ts": "22:21:31.028Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44706, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0, "firmwareVersion": "1.0.0-python-vm", "ipAddress": "172.16.0.4"}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[22:21:40.645Z] {"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:21:40.851Z] {"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 206.4, "rc": "Success", "qos_eff": 1}
+[22:21:50.652Z] {"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:21:50.856Z] {"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 203.9, "rc": "Success", "qos_eff": 1}
+[22:22:00.659Z] {"evt": "PUBLISH", "seq": 4, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:22:00.875Z] {"evt": "PUBACK", "mid": 10, "seq": 4, "rtt_ms": 215.7, "rc": "Success", "qos_eff": 1}
+[22:22:10.666Z] {"evt": "PUBLISH", "seq": 5, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:22:10.872Z] {"evt": "PUBACK", "mid": 11, "seq": 5, "rtt_ms": 206.4, "rc": "Success", "qos_eff": 1}
+[22:22:20.673Z] {"evt": "PUBLISH", "seq": 6, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:22:20.901Z] {"evt": "PUBACK", "mid": 12, "seq": 6, "rtt_ms": 227.4, "rc": "Success", "qos_eff": 1}
+[22:22:30.681Z] {"evt": "PUBLISH", "seq": 7, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:22:30.895Z] {"evt": "PUBACK", "mid": 13, "seq": 7, "rtt_ms": 214.3, "rc": "Success", "qos_eff": 1}
+[22:22:40.688Z] {"evt": "PUBLISH", "seq": 8, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:22:40.899Z] {"evt": "PUBACK", "mid": 14, "seq": 8, "rtt_ms": 211.7, "rc": "Success", "qos_eff": 1}
+[22:22:50.695Z] {"evt": "PUBLISH", "seq": 9, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:22:50.911Z] {"evt": "PUBACK", "mid": 15, "seq": 9, "rtt_ms": 216.5, "rc": "Success", "qos_eff": 1}
+[22:23:00.702Z] {"evt": "PUBLISH", "seq": 10, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:23:00.909Z] {"evt": "PUBACK", "mid": 16, "seq": 10, "rtt_ms": 206.7, "rc": "Success", "qos_eff": 1}
+[22:23:10.709Z] {"evt": "PUBLISH", "seq": 11, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:23:10.924Z] {"evt": "PUBACK", "mid": 17, "seq": 11, "rtt_ms": 215.0, "rc": "Success", "qos_eff": 1}
+[22:23:20.716Z] {"evt": "PUBLISH", "seq": 12, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:23:20.926Z] {"evt": "PUBACK", "mid": 18, "seq": 12, "rtt_ms": 210.2, "rc": "Success", "qos_eff": 1}
+[22:23:30.723Z] {"evt": "PUBLISH", "seq": 13, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:23:30.935Z] {"evt": "PUBACK", "mid": 19, "seq": 13, "rtt_ms": 211.7, "rc": "Success", "qos_eff": 1}
+[22:23:40.730Z] {"evt": "PUBLISH", "seq": 14, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:23:40.935Z] {"evt": "PUBACK", "mid": 20, "seq": 14, "rtt_ms": 205.4, "rc": "Success", "qos_eff": 1}
+[22:23:50.737Z] {"evt": "PUBLISH", "seq": 15, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:23:50.954Z] {"evt": "PUBACK", "mid": 21, "seq": 15, "rtt_ms": 217.8, "rc": "Success", "qos_eff": 1}
+[22:24:00.744Z] {"evt": "PUBLISH", "seq": 16, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:24:00.955Z] {"evt": "PUBACK", "mid": 22, "seq": 16, "rtt_ms": 210.9, "rc": "Success", "qos_eff": 1}
+[22:24:10.752Z] {"evt": "PUBLISH", "seq": 17, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:24:10.962Z] {"evt": "PUBACK", "mid": 23, "seq": 17, "rtt_ms": 210.3, "rc": "Success", "qos_eff": 1}
+[22:24:20.759Z] {"evt": "PUBLISH", "seq": 18, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:24:20.968Z] {"evt": "PUBACK", "mid": 24, "seq": 18, "rtt_ms": 209.3, "rc": "Success", "qos_eff": 1}
+[22:24:30.766Z] {"evt": "PUBLISH", "seq": 19, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:24:30.985Z] {"evt": "PUBACK", "mid": 25, "seq": 19, "rtt_ms": 218.7, "rc": "Success", "qos_eff": 1}
+[22:24:40.773Z] {"evt": "PUBLISH", "seq": 20, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:24:40.982Z] {"evt": "PUBACK", "mid": 26, "seq": 20, "rtt_ms": 209.3, "rc": "Success", "qos_eff": 1}
+[22:24:50.780Z] {"evt": "PUBLISH", "seq": 21, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:24:50.994Z] {"evt": "PUBACK", "mid": 27, "seq": 21, "rtt_ms": 213.7, "rc": "Success", "qos_eff": 1}
+[22:25:00.787Z] {"evt": "PUBLISH", "seq": 22, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:25:00.995Z] {"evt": "PUBACK", "mid": 28, "seq": 22, "rtt_ms": 208.7, "rc": "Success", "qos_eff": 1}
+[22:25:10.794Z] {"evt": "PUBLISH", "seq": 23, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:25:11.010Z] {"evt": "PUBACK", "mid": 29, "seq": 23, "rtt_ms": 216.1, "rc": "Success", "qos_eff": 1}
+[22:25:20.801Z] {"evt": "PUBLISH", "seq": 24, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[22:25:21.014Z] {"evt": "PUBACK", "mid": 30, "seq": 24, "rtt_ms": 214.1, "rc": "Success", "qos_eff": 1}
+[22:25:34.143Z] {"evt": "DISCONNECT", "rc": "Normal disconnection", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[22:25:34.644Z] {"evt": "SUMMARY", "qos": 1, "publicados": 24, "acks": 24, "conexiones": 1, "rtt_ms_avg": 216.7, "rtt_ms_min": 203.9, "rtt_ms_max": 321.1, "mensajes_recibidos": 2, "tabla": [{"seq": 1, "bytes": 60, "t_pub": "22:21:30.638Z", "t_ack": "22:21:30.959Z", "rtt_ms": 321.1, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 2, "bytes": 60, "t_pub": "22:21:40.645Z", "t_ack": "22:21:40.851Z", "rtt_ms": 206.4, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 3, "bytes": 60, "t_pub": "22:21:50.652Z", "t_ack": "22:21:50.856Z", "rtt_ms": 203.9, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 4, "bytes": 60, "t_pub": "22:22:00.659Z", "t_ack": "22:22:00.875Z", "rtt_ms": 215.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 5, "bytes": 60, "t_pub": "22:22:10.666Z", "t_ack": "22:22:10.872Z", "rtt_ms": 206.4, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 6, "bytes": 60, "t_pub": "22:22:20.673Z", "t_ack": "22:22:20.901Z", "rtt_ms": 227.4, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 7, "bytes": 60, "t_pub": "22:22:30.681Z", "t_ack": "22:22:30.895Z", "rtt_ms": 214.3, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 8, "bytes": 60, "t_pub": "22:22:40.688Z", "t_ack": "22:22:40.899Z", "rtt_ms": 211.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 9, "bytes": 60, "t_pub": "22:22:50.695Z", "t_ack": "22:22:50.911Z", "rtt_ms": 216.5, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 10, "bytes": 60, "t_pub": "22:23:00.702Z", "t_ack": "22:23:00.909Z", "rtt_ms": 206.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 11, "bytes": 60, "t_pub": "22:23:10.709Z", "t_ack": "22:23:10.924Z", "rtt_ms": 215.0, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 12, "bytes": 60, "t_pub": "22:23:20.716Z", "t_ack": "22:23:20.926Z", "rtt_ms": 210.2, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 13, "bytes": 60, "t_pub": "22:23:30.723Z", "t_ack": "22:23:30.935Z", "rtt_ms": 211.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 14, "bytes": 60, "t_pub": "22:23:40.730Z", "t_ack": "22:23:40.935Z", "rtt_ms": 205.4, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 15, "bytes": 60, "t_pub": "22:23:50.737Z", "t_ack": "22:23:50.954Z", "rtt_ms": 217.8, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 16, "bytes": 60, "t_pub": "22:24:00.744Z", "t_ack": "22:24:00.955Z", "rtt_ms": 210.9, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 17, "bytes": 60, "t_pub": "22:24:10.752Z", "t_ack": "22:24:10.962Z", "rtt_ms": 210.3, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 18, "bytes": 60, "t_pub": "22:24:20.759Z", "t_ack": "22:24:20.968Z", "rtt_ms": 209.3, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 19, "bytes": 60, "t_pub": "22:24:30.766Z", "t_ack": "22:24:30.985Z", "rtt_ms": 218.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 20, "bytes": 60, "t_pub": "22:24:40.773Z", "t_ack": "22:24:40.983Z", "rtt_ms": 209.3, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 21, "bytes": 60, "t_pub": "22:24:50.780Z", "t_ack": "22:24:50.994Z", "rtt_ms": 213.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 22, "bytes": 60, "t_pub": "22:25:00.787Z", "t_ack": "22:25:00.996Z", "rtt_ms": 208.7, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 23, "bytes": 60, "t_pub": "22:25:10.794Z", "t_ack": "22:25:11.010Z", "rtt_ms": 216.1, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 24, "bytes": 60, "t_pub": "22:25:20.801Z", "t_ack": "22:25:21.014Z", "rtt_ms": 214.1, "qos": 1, "gap_vs_cfg_s": null}]}

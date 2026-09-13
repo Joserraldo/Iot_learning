@@ -1,0 +1,16 @@
+{"evt": "START", "qos": 0, "interval_s": 10, "duration_s": 30, "hostname": "iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net", "device_id": "23z8rpgm6s4", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+{"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+{"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+{"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+{"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=44161", "bytes": 0, "ts": "19:52:12.730Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+{"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 190, "ts": "19:52:12.762Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44161, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0, "firmwareVersion": "1.0.0-python-vm", "ipAddress": "172.16.0.4"}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+{"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+{"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 0.4, "rc": "Success", "qos_eff": 0}
+{"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+{"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 0.4, "rc": "Success", "qos_eff": 0}
+{"evt": "DISCONNECT", "rc": "Normal disconnection", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+{"evt": "SUMMARY", "qos": 0, "publicados": 3, "acks": 3, "conexiones": 1, "rtt_ms_avg": 0.4, "rtt_ms_min": 0.3, "rtt_ms_max": 0.4, "mensajes_recibidos": 2, "tabla": [{"seq": 1, "bytes": 60, "t_pub": "19:52:12.372Z", "t_ack": "19:52:12.373Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 2, "bytes": 60, "t_pub": "19:52:22.379Z", "t_ack": "19:52:22.380Z", "rtt_ms": 0.4, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 3, "bytes": 60, "t_pub": "19:52:32.386Z", "t_ack": "19:52:32.386Z", "rtt_ms": 0.4, "qos": 0, "gap_vs_cfg_s": null}]}

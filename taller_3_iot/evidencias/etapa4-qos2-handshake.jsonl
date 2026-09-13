@@ -1,0 +1,51 @@
+{"evt": "START", "qos": 2, "interval_s": 10, "duration_s": 60, "hostname": "iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net", "device_id": "23z8rpgm6s4", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+{"evt": "PACKET", "dir": "SEND", "type": "CONNECT", "mid": null}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 1}
+{"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 2}
+{"evt": "PACKET", "dir": "RECV", "type": "CONNACK", "mid": null}
+{"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 3}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 4}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 5}
+{"evt": "PACKET", "dir": "SEND", "type": "SUBSCRIBE", "mid": 6}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 7}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 1}
+{"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 245.4, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBLISH", "mid": 0}
+{"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=44153", "bytes": 0, "ts": "00:39:27.751Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "SUBACK", "mid": null}
+{"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBLISH", "mid": 0}
+{"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "00:39:27.755Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44153, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 8}
+{"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 8}
+{"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 181.7, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 9}
+{"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 9}
+{"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 182.7, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 10}
+{"evt": "PUBLISH", "seq": 4, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 10}
+{"evt": "PUBACK", "mid": 10, "seq": 4, "rtt_ms": 170.8, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 11}
+{"evt": "PUBLISH", "seq": 5, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 11}
+{"evt": "PUBACK", "mid": 11, "seq": 5, "rtt_ms": 173.8, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "PUBLISH", "mid": 12}
+{"evt": "PUBLISH", "seq": 6, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 2, "rc": "0"}
+{"evt": "PACKET", "dir": "RECV", "type": "PUBACK", "mid": 12}
+{"evt": "PUBACK", "mid": 12, "seq": 6, "rtt_ms": 167.9, "rc": "Success", "qos_eff": 2}
+{"evt": "PACKET", "dir": "SEND", "type": "PINGREQ", "mid": null}
+{"evt": "PACKET", "dir": "RECV", "type": "PINGRESP", "mid": null}
+{"evt": "PACKET", "dir": "SEND", "type": "DISCONNECT", "mid": null}
+{"evt": "DISCONNECT", "rc": "Normal disconnection", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+{"evt": "SUMMARY", "qos": 2, "publicados": 6, "acks": 6, "conexiones": 1, "rtt_ms_avg": 187.0, "rtt_ms_min": 167.9, "rtt_ms_max": 245.4, "mensajes_recibidos": 2, "tabla": [{"seq": 1, "bytes": 60, "t_pub": "00:39:27.471Z", "t_ack": "00:39:27.716Z", "rtt_ms": 245.4, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 2, "bytes": 60, "t_pub": "00:39:37.492Z", "t_ack": "00:39:37.673Z", "rtt_ms": 181.7, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 3, "bytes": 60, "t_pub": "00:39:47.513Z", "t_ack": "00:39:47.695Z", "rtt_ms": 182.7, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 4, "bytes": 60, "t_pub": "00:39:57.531Z", "t_ack": "00:39:57.702Z", "rtt_ms": 170.8, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 5, "bytes": 60, "t_pub": "00:40:07.549Z", "t_ack": "00:40:07.723Z", "rtt_ms": 173.8, "qos": 2, "gap_vs_cfg_s": null}, {"seq": 6, "bytes": 60, "t_pub": "00:40:17.571Z", "t_ack": "00:40:17.739Z", "rtt_ms": 167.9, "qos": 2, "gap_vs_cfg_s": null}]}

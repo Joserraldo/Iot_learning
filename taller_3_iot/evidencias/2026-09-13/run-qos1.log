@@ -1,0 +1,22 @@
+[19:07:34.245Z] {"evt": "START", "qos": 1, "interval_s": 10, "duration_s": 60, "hostname": "iotc-631aa800-6992-4b08-a899-bfa301046377.azure-devices.net", "device_id": "python-vm-01", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+[19:07:34.700Z] {"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/python-vm-01/messages/events/", "qos": 1, "rc": "0"}
+[19:07:34.834Z] {"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[19:07:35.059Z] {"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 359.0, "rc": "Success", "qos_eff": 1}
+[19:07:35.123Z] {"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=8", "bytes": 0, "ts": "19:07:35.123Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[19:07:35.144Z] {"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[19:07:35.144Z] {"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[19:07:35.144Z] {"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[19:07:35.145Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 277, "ts": "19:07:35.145Z", "json": {"desired": {"$version": 2, "tempHighThreshold": 27}, "reported": {"$version": 8, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "firmwareVersion": "1.0.0-python-vm", "ipAddress": "172.16.0.4", "tempHighThreshold": {"ac": 200, "ad": "actualizado por el nodo Python", "av": 2, "value": 27.0}}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[19:07:35.189Z] {"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[19:07:44.707Z] {"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/python-vm-01/messages/events/", "qos": 1, "rc": "0"}
+[19:07:44.933Z] {"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 226.5, "rc": "Success", "qos_eff": 1}
+[19:07:54.713Z] {"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/python-vm-01/messages/events/", "qos": 1, "rc": "0"}
+[19:07:54.939Z] {"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 226.5, "rc": "Success", "qos_eff": 1}
+[19:08:04.719Z] {"evt": "PUBLISH", "seq": 4, "bytes": 60, "topic": "devices/python-vm-01/messages/events/", "qos": 1, "rc": "0"}
+[19:08:04.946Z] {"evt": "PUBACK", "mid": 10, "seq": 4, "rtt_ms": 227.6, "rc": "Success", "qos_eff": 1}
+[19:08:14.725Z] {"evt": "PUBLISH", "seq": 5, "bytes": 60, "topic": "devices/python-vm-01/messages/events/", "qos": 1, "rc": "0"}
+[19:08:14.959Z] {"evt": "PUBACK", "mid": 11, "seq": 5, "rtt_ms": 233.8, "rc": "Success", "qos_eff": 1}
+[19:08:24.732Z] {"evt": "PUBLISH", "seq": 6, "bytes": 60, "topic": "devices/python-vm-01/messages/events/", "qos": 1, "rc": "0"}
+[19:08:24.954Z] {"evt": "PUBACK", "mid": 12, "seq": 6, "rtt_ms": 222.2, "rc": "Success", "qos_eff": 1}
+[19:08:38.101Z] {"evt": "DISCONNECT", "rc": "Normal disconnection", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[19:08:38.602Z] {"evt": "SUMMARY", "qos": 1, "publicados": 6, "acks": 6, "conexiones": 1, "rtt_ms_avg": 249.3, "rtt_ms_min": 222.2, "rtt_ms_max": 359.0, "mensajes_recibidos": 2, "tabla": [{"seq": 1, "bytes": 60, "t_pub": "19:07:34.700Z", "t_ack": "19:07:35.059Z", "rtt_ms": 359.0, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 2, "bytes": 60, "t_pub": "19:07:44.707Z", "t_ack": "19:07:44.933Z", "rtt_ms": 226.5, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 3, "bytes": 60, "t_pub": "19:07:54.713Z", "t_ack": "19:07:54.939Z", "rtt_ms": 226.5, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 4, "bytes": 60, "t_pub": "19:08:04.719Z", "t_ack": "19:08:04.947Z", "rtt_ms": 227.6, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 5, "bytes": 60, "t_pub": "19:08:14.725Z", "t_ack": "19:08:14.959Z", "rtt_ms": 233.8, "qos": 1, "gap_vs_cfg_s": null}, {"seq": 6, "bytes": 60, "t_pub": "19:08:24.731Z", "t_ack": "19:08:24.954Z", "rtt_ms": 222.2, "qos": 1, "gap_vs_cfg_s": null}]}

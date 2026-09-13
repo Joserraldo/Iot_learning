@@ -1,0 +1,15 @@
+# Evidencia Etapa 1.1 — registro DPS del nodo Python (Lab 2), SOLO register()
+# Comando: ./taller_2_iot/.venv/Scripts/python.exe "C:/Users/jose/AppData/Local/Temp/opencode/lab3_t21/dps_python.py"
+# Fecha: 2026-09-11 13:07 local (18:07 UTC) | cwd: raiz del repo | exit code: 0
+# Alcance: el script ejecuta UNIQUEMENTe ProvisioningDeviceClient.register() (async).
+#   NO hace connect al hub y NO envia telemetria (cero impacto sobre el solution de IoT Central del Lab 2).
+# Redaccion: se verifico el stdout con grep -oE "[A-Za-z0-9+/]{44}" → 0 coincidencias (ninguna symmetric key en la salida).
+
+registration_id: 23z8rpgm6s4
+status: assigned
+assigned_hub: iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net
+assigned_device_id: 23z8rpgm6s4
+sub_status: initialAssignment
+created_date_time: 2026-09-11T18:07:00.7695675Z
+last_update_date_time: 2026-09-11T18:07:00.959762Z
+INTERVALO_SEGUNDOS: 10

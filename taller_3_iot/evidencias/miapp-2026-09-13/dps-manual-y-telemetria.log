@@ -1,0 +1,24 @@
+[2026-09-13T19:50:44.583] [SYNC] reloj VM=1789329044.466 vs NTP=1789329044.584 -> offset -0.0 s
+[2026-09-13T19:50:44.604] [DPS] CONNECT mqtts://global.azure-devices-provisioning.net:8883 (TLS 1.2+, SAS visible)
+[2026-09-13T19:50:45.020] [DPS] CONNACK rc=0 -> Connection Accepted.
+[2026-09-13T19:50:45.020] [DPS] PUB -> PUT iotdps-register ?$rid=1  {"registrationId": "23z8rpgm6s4"}
+[2026-09-13T19:50:45.332] [DPS] SUB <- $dps/registrations/res/202/  status=assigning
+[2026-09-13T19:50:48.337] [DPS] PUB -> GET operationstatus ?$rid=2 (operationId=5.ac786400c6755d2d.9e9d5...)
+[2026-09-13T19:50:48.655] [DPS] SUB <- $dps/registrations/res/200/  status=assigned
+[2026-09-13T19:50:48.655] [DPS] ASIGNADO hub=iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net device=23z8rpgm6s4
+[2026-09-13T19:50:48.656] [HUB] username MQTT = iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net/23z8rpgm6s4/?api-version=2019-10-01
+[2026-09-13T19:50:48.656] [HUB] password      = SharedAccessSignature sr=iotc-47a415d3-3f15-4cf1-918c-4be146...
+[2026-09-13T19:50:48.673] [HUB] CONNECT mqtts://iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net:8883
+[2026-09-13T19:50:49.220] [MEDICION #1] topic=devices/23z8rpgm6s4/messages/events/ qos=1 bytes=153 mid=1 rc=0
+[2026-09-13T19:50:49.220] [MEDICION #1] payload={"temperature": 28.2, "humidity": 66.9, "illuminance": 767.2, "_meta": {"mqtt_published_at": "2026-09-13T19:50:49.220+00:00", "epoch_ms": 1789329049220}}
+[2026-09-13T19:50:49.351] [HUB] CONNACK rc=0 -> Connection Accepted.
+[2026-09-13T19:50:49.351] [HUB] SUB  a C2D, twin desired, twin res y methods
+[2026-09-13T19:50:49.563] [HUB] PUBACK mid=1 (QoS 1 confirmado por broker)
+[2026-09-13T19:50:54.220] [MEDICION #2] topic=devices/23z8rpgm6s4/messages/events/ qos=1 bytes=153 mid=6 rc=0
+[2026-09-13T19:50:54.221] [MEDICION #2] payload={"temperature": 28.1, "humidity": 67.6, "illuminance": 763.8, "_meta": {"mqtt_published_at": "2026-09-13T19:50:54.220+00:00", "epoch_ms": 1789329054220}}
+[2026-09-13T19:50:54.429] [HUB] PUBACK mid=6 (QoS 1 confirmado por broker)
+[2026-09-13T19:50:59.221] [MEDICION #3] topic=devices/23z8rpgm6s4/messages/events/ qos=1 bytes=153 mid=7 rc=0
+[2026-09-13T19:50:59.221] [MEDICION #3] payload={"temperature": 28.0, "humidity": 66.9, "illuminance": 752.2, "_meta": {"mqtt_published_at": "2026-09-13T19:50:59.221+00:00", "epoch_ms": 1789329059221}}
+[2026-09-13T19:50:59.437] [HUB] PUBACK mid=7 (QoS 1 confirmado por broker)
+[2026-09-13T19:51:07.446] [HUB] DISCONNECT rc=0
+[2026-09-13T19:51:07.446] [FIN] 3 mensajes publicados con QoS 1

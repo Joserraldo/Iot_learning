@@ -1,0 +1,320 @@
+[18:28:12.124Z] {"evt": "START", "qos": 0, "interval_s": 10, "duration_s": 150, "hostname": "iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net", "device_id": "23z8rpgm6s4", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+[18:28:12.469Z] {"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:28:12.470Z] {"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:28:12.556Z] {"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:28:12.751Z] {"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=44143", "bytes": 0, "ts": "18:28:12.751Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:28:12.761Z] {"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:12.761Z] {"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:12.761Z] {"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:12.761Z] {"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:12.762Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:28:12.762Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:28:22.484Z] {"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:28:22.484Z] {"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:28:32.499Z] {"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:28:32.500Z] {"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 0.2, "rc": "Success", "qos_eff": 0}
+[18:28:34.635Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:35.970Z] {"evt": "CONNACK", "n": 2, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:36.063Z] {"evt": "SUBACK", "mid": 10, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:36.156Z] {"evt": "SUBACK", "mid": 11, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:36.167Z] {"evt": "SUBACK", "mid": 12, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:36.179Z] {"evt": "SUBACK", "mid": 13, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:37.364Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:38.703Z] {"evt": "CONNACK", "n": 3, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:38.796Z] {"evt": "SUBACK", "mid": 15, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:38.892Z] {"evt": "SUBACK", "mid": 16, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:38.905Z] {"evt": "SUBACK", "mid": 17, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:38.917Z] {"evt": "SUBACK", "mid": 18, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:40.053Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:41.376Z] {"evt": "CONNACK", "n": 4, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:41.470Z] {"evt": "SUBACK", "mid": 20, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:41.562Z] {"evt": "SUBACK", "mid": 21, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:41.573Z] {"evt": "SUBACK", "mid": 22, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:41.586Z] {"evt": "SUBACK", "mid": 23, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:42.512Z] {"evt": "PUBLISH", "seq": 4, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:28:42.512Z] {"evt": "PUBACK", "mid": 25, "seq": 4, "rtt_ms": 0.2, "rc": "Success", "qos_eff": 0}
+[18:28:42.727Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:44.179Z] {"evt": "CONNACK", "n": 5, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:44.279Z] {"evt": "SUBACK", "mid": 26, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:44.379Z] {"evt": "SUBACK", "mid": 27, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:44.392Z] {"evt": "SUBACK", "mid": 28, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:44.403Z] {"evt": "SUBACK", "mid": 29, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:45.534Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:46.853Z] {"evt": "CONNACK", "n": 6, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:46.945Z] {"evt": "SUBACK", "mid": 31, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:47.032Z] {"evt": "SUBACK", "mid": 32, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:47.046Z] {"evt": "SUBACK", "mid": 33, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:47.062Z] {"evt": "SUBACK", "mid": 34, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:48.202Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:49.535Z] {"evt": "CONNACK", "n": 7, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:49.628Z] {"evt": "SUBACK", "mid": 36, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:49.720Z] {"evt": "SUBACK", "mid": 37, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:49.734Z] {"evt": "SUBACK", "mid": 38, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:49.746Z] {"evt": "SUBACK", "mid": 39, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:50.906Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:52.245Z] {"evt": "CONNACK", "n": 8, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:52.341Z] {"evt": "SUBACK", "mid": 41, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:52.438Z] {"evt": "SUBACK", "mid": 42, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:52.450Z] {"evt": "SUBACK", "mid": 43, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:52.461Z] {"evt": "SUBACK", "mid": 44, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:52.527Z] {"evt": "PUBLISH", "seq": 5, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:28:52.527Z] {"evt": "PUBACK", "mid": 46, "seq": 5, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:28:53.594Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:55.059Z] {"evt": "CONNACK", "n": 9, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:55.164Z] {"evt": "SUBACK", "mid": 47, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:55.267Z] {"evt": "SUBACK", "mid": 48, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:55.280Z] {"evt": "SUBACK", "mid": 49, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:55.292Z] {"evt": "SUBACK", "mid": 50, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:56.403Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:28:57.738Z] {"evt": "CONNACK", "n": 10, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:28:57.830Z] {"evt": "SUBACK", "mid": 52, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:57.921Z] {"evt": "SUBACK", "mid": 53, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:57.934Z] {"evt": "SUBACK", "mid": 54, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:57.946Z] {"evt": "SUBACK", "mid": 55, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:28:59.127Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:00.455Z] {"evt": "CONNACK", "n": 11, "rc": "Success", "session_present": "ConnectFlags(session_present=False)"}
+[18:29:00.547Z] {"evt": "SUBACK", "mid": 57, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:00.639Z] {"evt": "SUBACK", "mid": 58, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:00.651Z] {"evt": "SUBACK", "mid": 59, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:00.663Z] {"evt": "SUBACK", "mid": 60, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:02.542Z] {"evt": "PUBLISH", "seq": 6, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:29:02.542Z] {"evt": "PUBACK", "mid": 62, "seq": 6, "rtt_ms": 0.2, "rc": "Success", "qos_eff": 0}
+[18:29:02.721Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:04.050Z] {"evt": "CONNACK", "n": 12, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:04.131Z] {"evt": "SUBACK", "mid": 63, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:04.212Z] {"evt": "SUBACK", "mid": 64, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:04.212Z] {"evt": "SUBACK", "mid": 65, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:04.212Z] {"evt": "SUBACK", "mid": 66, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:04.213Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:04.213Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:05.502Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:06.874Z] {"evt": "CONNACK", "n": 13, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:06.967Z] {"evt": "SUBACK", "mid": 68, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:07.059Z] {"evt": "SUBACK", "mid": 69, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:07.059Z] {"evt": "SUBACK", "mid": 70, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:07.059Z] {"evt": "SUBACK", "mid": 71, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:07.061Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:07.061Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:08.205Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:09.530Z] {"evt": "CONNACK", "n": 14, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:09.610Z] {"evt": "SUBACK", "mid": 73, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:09.691Z] {"evt": "SUBACK", "mid": 74, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:09.691Z] {"evt": "SUBACK", "mid": 75, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:09.691Z] {"evt": "SUBACK", "mid": 76, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:09.692Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:09.692Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:10.862Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:12.287Z] {"evt": "CONNACK", "n": 15, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:12.368Z] {"evt": "SUBACK", "mid": 78, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:12.448Z] {"evt": "SUBACK", "mid": 79, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:12.448Z] {"evt": "SUBACK", "mid": 80, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:12.448Z] {"evt": "SUBACK", "mid": 81, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:12.450Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:12.450Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:12.557Z] {"evt": "PUBLISH", "seq": 7, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:29:12.557Z] {"evt": "PUBACK", "mid": 83, "seq": 7, "rtt_ms": 0.2, "rc": "Success", "qos_eff": 0}
+[18:29:13.616Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:14.990Z] {"evt": "CONNACK", "n": 16, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:15.083Z] {"evt": "SUBACK", "mid": 84, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:15.173Z] {"evt": "SUBACK", "mid": 85, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:15.173Z] {"evt": "SUBACK", "mid": 86, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:15.173Z] {"evt": "SUBACK", "mid": 87, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:15.175Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:15.175Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:16.326Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:17.707Z] {"evt": "CONNACK", "n": 17, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:17.800Z] {"evt": "SUBACK", "mid": 89, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:17.890Z] {"evt": "SUBACK", "mid": 90, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:17.890Z] {"evt": "SUBACK", "mid": 91, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:17.890Z] {"evt": "SUBACK", "mid": 92, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:17.891Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:17.891Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:19.033Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:20.357Z] {"evt": "CONNACK", "n": 18, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:20.437Z] {"evt": "SUBACK", "mid": 94, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:20.517Z] {"evt": "SUBACK", "mid": 95, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:20.517Z] {"evt": "SUBACK", "mid": 96, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:20.517Z] {"evt": "SUBACK", "mid": 97, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:20.519Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:20.519Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:21.683Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:22.574Z] {"evt": "PUBLISH", "seq": 8, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "4"}
+[18:29:23.118Z] {"evt": "CONNACK", "n": 19, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:23.199Z] {"evt": "SUBACK", "mid": 100, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:23.279Z] {"evt": "SUBACK", "mid": 101, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:23.279Z] {"evt": "SUBACK", "mid": 102, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:23.279Z] {"evt": "SUBACK", "mid": 103, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:23.281Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:23.281Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:24.456Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:25.779Z] {"evt": "CONNACK", "n": 20, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:25.859Z] {"evt": "SUBACK", "mid": 105, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:25.935Z] {"evt": "SUBACK", "mid": 106, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:25.935Z] {"evt": "SUBACK", "mid": 107, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:25.935Z] {"evt": "SUBACK", "mid": 108, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:25.936Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:25.936Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:27.114Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:28.463Z] {"evt": "CONNACK", "n": 21, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:28.544Z] {"evt": "SUBACK", "mid": 110, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:28.624Z] {"evt": "SUBACK", "mid": 111, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:28.624Z] {"evt": "SUBACK", "mid": 112, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:28.624Z] {"evt": "SUBACK", "mid": 113, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:28.626Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:28.626Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44143, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:32.589Z] {"evt": "PUBLISH", "seq": 9, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:29:32.589Z] {"evt": "PUBACK", "mid": 115, "seq": 9, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:29:42.604Z] {"evt": "PUBLISH", "seq": 10, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:29:42.605Z] {"evt": "PUBACK", "mid": 116, "seq": 10, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:29:44.368Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:45.741Z] {"evt": "CONNACK", "n": 22, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:45.833Z] {"evt": "SUBACK", "mid": 117, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:45.925Z] {"evt": "SUBACK", "mid": 118, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:45.925Z] {"evt": "SUBACK", "mid": 119, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:45.925Z] {"evt": "SUBACK", "mid": 120, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:45.927Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:45.927Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:47.072Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:48.402Z] {"evt": "CONNACK", "n": 23, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:48.483Z] {"evt": "SUBACK", "mid": 122, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:48.563Z] {"evt": "SUBACK", "mid": 123, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:48.563Z] {"evt": "SUBACK", "mid": 124, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:48.563Z] {"evt": "SUBACK", "mid": 125, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:48.565Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:48.565Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:49.742Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:51.114Z] {"evt": "CONNACK", "n": 24, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:51.203Z] {"evt": "SUBACK", "mid": 127, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:51.295Z] {"evt": "SUBACK", "mid": 128, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:51.295Z] {"evt": "SUBACK", "mid": 129, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:51.295Z] {"evt": "SUBACK", "mid": 130, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:51.297Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:51.297Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:52.449Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:52.620Z] {"evt": "PUBLISH", "seq": 11, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "4"}
+[18:29:53.785Z] {"evt": "CONNACK", "n": 25, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:53.865Z] {"evt": "SUBACK", "mid": 133, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:53.973Z] {"evt": "SUBACK", "mid": 134, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:53.974Z] {"evt": "SUBACK", "mid": 135, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:53.974Z] {"evt": "SUBACK", "mid": 136, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:53.976Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:53.976Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:55.212Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:56.537Z] {"evt": "CONNACK", "n": 26, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:56.617Z] {"evt": "SUBACK", "mid": 138, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:56.697Z] {"evt": "SUBACK", "mid": 139, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:56.697Z] {"evt": "SUBACK", "mid": 140, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:56.697Z] {"evt": "SUBACK", "mid": 141, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:56.698Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:56.698Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:29:57.879Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:29:59.199Z] {"evt": "CONNACK", "n": 27, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:29:59.275Z] {"evt": "SUBACK", "mid": 143, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:59.352Z] {"evt": "SUBACK", "mid": 144, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:59.353Z] {"evt": "SUBACK", "mid": 145, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:59.353Z] {"evt": "SUBACK", "mid": 146, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:29:59.355Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:29:59.355Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:00.581Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:01.913Z] {"evt": "CONNACK", "n": 28, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:01.992Z] {"evt": "SUBACK", "mid": 148, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:02.073Z] {"evt": "SUBACK", "mid": 149, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:02.074Z] {"evt": "SUBACK", "mid": 150, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:02.074Z] {"evt": "SUBACK", "mid": 151, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:02.076Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:02.075Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:02.635Z] {"evt": "PUBLISH", "seq": 12, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:30:02.635Z] {"evt": "PUBACK", "mid": 153, "seq": 12, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:30:03.259Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:04.599Z] {"evt": "CONNACK", "n": 29, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:04.684Z] {"evt": "SUBACK", "mid": 154, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:04.768Z] {"evt": "SUBACK", "mid": 155, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:04.768Z] {"evt": "SUBACK", "mid": 156, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:04.768Z] {"evt": "SUBACK", "mid": 157, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:04.769Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:04.769Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:06.005Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:07.377Z] {"evt": "CONNACK", "n": 30, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:07.468Z] {"evt": "SUBACK", "mid": 159, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:07.560Z] {"evt": "SUBACK", "mid": 160, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:07.560Z] {"evt": "SUBACK", "mid": 161, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:07.560Z] {"evt": "SUBACK", "mid": 162, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:07.562Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:07.562Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:08.765Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:10.141Z] {"evt": "CONNACK", "n": 31, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:10.232Z] {"evt": "SUBACK", "mid": 164, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:10.324Z] {"evt": "SUBACK", "mid": 165, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:10.324Z] {"evt": "SUBACK", "mid": 166, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:10.324Z] {"evt": "SUBACK", "mid": 167, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:10.327Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:10.326Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:11.518Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:12.651Z] {"evt": "PUBLISH", "seq": 13, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "4"}
+[18:30:12.863Z] {"evt": "CONNACK", "n": 32, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:12.947Z] {"evt": "SUBACK", "mid": 170, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:13.031Z] {"evt": "SUBACK", "mid": 171, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:13.031Z] {"evt": "SUBACK", "mid": 172, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:13.031Z] {"evt": "SUBACK", "mid": 173, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:13.033Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:13.033Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:14.190Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:15.515Z] {"evt": "CONNACK", "n": 33, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:15.595Z] {"evt": "SUBACK", "mid": 175, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:15.675Z] {"evt": "SUBACK", "mid": 176, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:15.676Z] {"evt": "SUBACK", "mid": 177, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:15.676Z] {"evt": "SUBACK", "mid": 178, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:15.677Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:15.677Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:16.981Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:18.358Z] {"evt": "CONNACK", "n": 34, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:18.452Z] {"evt": "SUBACK", "mid": 180, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:18.544Z] {"evt": "SUBACK", "mid": 181, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:18.544Z] {"evt": "SUBACK", "mid": 182, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:18.544Z] {"evt": "SUBACK", "mid": 183, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:18.546Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:18.546Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:19.821Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:21.159Z] {"evt": "CONNACK", "n": 35, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:21.240Z] {"evt": "SUBACK", "mid": 185, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:21.324Z] {"evt": "SUBACK", "mid": 186, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:21.324Z] {"evt": "SUBACK", "mid": 187, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:21.324Z] {"evt": "SUBACK", "mid": 188, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:21.326Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:21.326Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:22.494Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:22.663Z] {"evt": "PUBLISH", "seq": 14, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "4"}
+[18:30:23.831Z] {"evt": "CONNACK", "n": 36, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:23.913Z] {"evt": "SUBACK", "mid": 191, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:23.994Z] {"evt": "SUBACK", "mid": 192, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:23.994Z] {"evt": "SUBACK", "mid": 193, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:23.994Z] {"evt": "SUBACK", "mid": 194, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:23.995Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:23.995Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:25.158Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:26.622Z] {"evt": "CONNACK", "n": 37, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:26.715Z] {"evt": "SUBACK", "mid": 196, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:26.807Z] {"evt": "SUBACK", "mid": 197, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:26.807Z] {"evt": "SUBACK", "mid": 198, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:26.807Z] {"evt": "SUBACK", "mid": 199, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:26.809Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:26.809Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:27.951Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:29.268Z] {"evt": "CONNACK", "n": 38, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:29.345Z] {"evt": "SUBACK", "mid": 201, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:29.421Z] {"evt": "SUBACK", "mid": 202, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:29.421Z] {"evt": "SUBACK", "mid": 203, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:29.421Z] {"evt": "SUBACK", "mid": 204, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:29.423Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:29.423Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:30.599Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:31.935Z] {"evt": "CONNACK", "n": 39, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:32.016Z] {"evt": "SUBACK", "mid": 206, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:32.096Z] {"evt": "SUBACK", "mid": 207, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:32.096Z] {"evt": "SUBACK", "mid": 208, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:32.096Z] {"evt": "SUBACK", "mid": 209, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:32.098Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:32.098Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:32.681Z] {"evt": "PUBLISH", "seq": 15, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 0, "rc": "0"}
+[18:30:32.681Z] {"evt": "PUBACK", "mid": 211, "seq": 15, "rtt_ms": 0.3, "rc": "Success", "qos_eff": 0}
+[18:30:33.273Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:34.644Z] {"evt": "CONNACK", "n": 40, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:34.737Z] {"evt": "SUBACK", "mid": 212, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:34.830Z] {"evt": "SUBACK", "mid": 213, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:34.830Z] {"evt": "SUBACK", "mid": 214, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:34.830Z] {"evt": "SUBACK", "mid": 215, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:34.832Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:34.832Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:36.082Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:37.526Z] {"evt": "CONNACK", "n": 41, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:37.615Z] {"evt": "SUBACK", "mid": 217, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:37.707Z] {"evt": "SUBACK", "mid": 218, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:37.707Z] {"evt": "SUBACK", "mid": 219, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:37.708Z] {"evt": "SUBACK", "mid": 220, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:37.709Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:37.709Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:38.865Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:40.208Z] {"evt": "CONNACK", "n": 42, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:40.289Z] {"evt": "SUBACK", "mid": 222, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:40.369Z] {"evt": "SUBACK", "mid": 223, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:40.369Z] {"evt": "SUBACK", "mid": 224, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:40.369Z] {"evt": "SUBACK", "mid": 225, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:40.371Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:40.371Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:41.543Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:42.872Z] {"evt": "CONNACK", "n": 43, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[18:30:42.953Z] {"evt": "SUBACK", "mid": 227, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:43.033Z] {"evt": "SUBACK", "mid": 228, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:43.033Z] {"evt": "SUBACK", "mid": 229, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:43.033Z] {"evt": "SUBACK", "mid": 230, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[18:30:43.035Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 129, "ts": "18:30:43.035Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44144, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[18:30:44.206Z] {"evt": "DISCONNECT", "rc": "Unspecified error", "flags": "DisconnectFlags(is_disconnect_packet_from_server=False)"}
+[18:30:45.706Z] {"evt": "SUMMARY", "qos": 0, "publicados": 15, "acks": 11, "conexiones": 43, "rtt_ms_avg": 0.3, "rtt_ms_min": 0.2, "rtt_ms_max": 0.3, "mensajes_recibidos": 34, "tabla": [{"seq": 1, "bytes": 60, "t_pub": "18:28:12.469Z", "t_ack": "18:28:12.470Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 2, "bytes": 60, "t_pub": "18:28:22.484Z", "t_ack": "18:28:22.484Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 3, "bytes": 60, "t_pub": "18:28:32.499Z", "t_ack": "18:28:32.500Z", "rtt_ms": 0.2, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 4, "bytes": 60, "t_pub": "18:28:42.512Z", "t_ack": "18:28:42.512Z", "rtt_ms": 0.2, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 5, "bytes": 60, "t_pub": "18:28:52.527Z", "t_ack": "18:28:52.527Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 6, "bytes": 60, "t_pub": "18:29:02.542Z", "t_ack": "18:29:02.542Z", "rtt_ms": 0.2, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 7, "bytes": 60, "t_pub": "18:29:12.557Z", "t_ack": "18:29:12.557Z", "rtt_ms": 0.2, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 9, "bytes": 60, "t_pub": "18:29:32.589Z", "t_ack": "18:29:32.589Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 10, "bytes": 60, "t_pub": "18:29:42.604Z", "t_ack": "18:29:42.605Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 12, "bytes": 60, "t_pub": "18:30:02.635Z", "t_ack": "18:30:02.635Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}, {"seq": 15, "bytes": 60, "t_pub": "18:30:32.681Z", "t_ack": "18:30:32.681Z", "rtt_ms": 0.3, "qos": 0, "gap_vs_cfg_s": null}]}

@@ -1,0 +1,16 @@
+[21:25:51.689Z] {"evt": "START", "qos": 1, "interval_s": 10, "duration_s": 300, "hostname": "iotc-47a415d3-3f15-4cf1-918c-4be1461915f3.azure-devices.net", "device_id": "23z8rpgm6s4", "api_version": "2021-04-12", "tls": "TLSv1_2:8883"}
+[21:25:52.294Z] {"evt": "PUBLISH", "seq": 1, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[21:25:52.412Z] {"evt": "CONNACK", "n": 1, "rc": "Success", "session_present": "ConnectFlags(session_present=True)"}
+[21:25:52.623Z] {"evt": "PUBACK", "mid": 1, "seq": 1, "rtt_ms": 329.6, "rc": "Success", "qos_eff": 1}
+[21:25:52.647Z] {"evt": "MSG", "topic": "$iothub/twin/res/204/?$rid=3&$version=44482", "bytes": 0, "ts": "21:25:52.647Z", "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[21:25:52.685Z] {"evt": "SUBACK", "mid": 3, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[21:25:52.685Z] {"evt": "SUBACK", "mid": 4, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[21:25:52.685Z] {"evt": "SUBACK", "mid": 5, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[21:25:52.685Z] {"evt": "SUBACK", "mid": 6, "granted": "[ReasonCode(Suback, 'Granted QoS 1')]"}
+[21:25:52.687Z] {"evt": "MSG", "topic": "$iothub/twin/res/200/?$rid=1", "bytes": 190, "ts": "21:25:52.687Z", "json": {"desired": {"$version": 1}, "reported": {"$version": 44482, "Estado_semaforo_LED": "Amarillo", "ID_salon": "A-301", "Set_temp_hvac": 22.0, "firmwareVersion": "1.0.0-python-vm", "ipAddress": "172.16.0.4"}}, "note": "respuesta GET gemelo (res/<status>/?$rid=init1)"}
+[21:26:02.300Z] {"evt": "PUBLISH", "seq": 2, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[21:26:02.503Z] {"evt": "PUBACK", "mid": 8, "seq": 2, "rtt_ms": 203.1, "rc": "Success", "qos_eff": 1}
+[21:26:12.307Z] {"evt": "PUBLISH", "seq": 3, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[21:26:12.520Z] {"evt": "PUBACK", "mid": 9, "seq": 3, "rtt_ms": 213.1, "rc": "Success", "qos_eff": 1}
+[21:26:22.313Z] {"evt": "PUBLISH", "seq": 4, "bytes": 60, "topic": "devices/23z8rpgm6s4/messages/events/", "qos": 1, "rc": "0"}
+[21:26:22.523Z] {"evt": "PUBACK", "mid": 10, "seq": 4, "rtt_ms": 210.5, "rc": "Success", "qos_eff": 1}

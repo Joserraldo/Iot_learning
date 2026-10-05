@@ -1,0 +1,15 @@
+# Taller 4 — Lab 4: AMQP + CoAP vs MQTT
+# azure-iot-device: transporte Amqp para AMQP (usa paho por debajo para MQTT, y
+#   la lib de AMQP para el transporte Amqp). Incluye el SDK de provisioning DPS.
+# aiocoap: cliente/servidor CoAP (UDP/5683).
+# paho-mqtt: baseline MQTT explícito (reutilizado del Lab 3) y puente CoAP→Central.
+# python-dotenv: cargar .env sin secretos en git.
+
+azure-iot-device==2.14.0
+aiocoap==0.4.7
+# paho<2.0 lo fija azure-iot-device (1.6.x); mqtt_baseline usa la API 1.x
+paho-mqtt>=1.6,<2.0
+python-dotenv>=1.0
+requests>=2.31
+# Cliente AMQP explícito: azure-iot-device 2.x YA NO incluye transporte AMQP.
+uamqp==1.6.11

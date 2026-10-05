@@ -1,0 +1,17 @@
+# Secretos y credenciales — NUNCA versionar
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs y evidencias crudas (los curados van en evidencias/)
+logs/
+*.log
+*.jsonl
+
+# Wokwi / temp
+serial.log

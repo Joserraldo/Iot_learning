@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sala de control · Lab 4 IoT · MQTT · AMQP · CoAP</title>
+<style>
+  :root{
+    --bg:#070c16; --panel:#0d1526; --panel2:#111c33; --borde:#1e293b;
+    --tx:#e2e8f0; --tx2:#94a3b8; --tx3:#64748b;
+    --mqtt:#38bdf8; --amqp:#a78bfa; --coap:#34d399;
+    --ok:#22c55e; --bad:#ef4444; --warn:#f59e0b;
+    --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 600px at 20% -10%,#132043 0%,var(--bg) 60%);
+       color:var(--tx);font:15px/1.5 ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+       padding:0 0 60px}
+  h1{font-size:20px;margin:0}
+  h2{font-size:16px;margin:0 0 14px;letter-spacing:.3px;text-transform:uppercase;color:#cbd5e1}
+  h3{margin:0;font-size:17px}
+  a{color:#7dd3fc;text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+         justify-content:space-between;padding:14px 22px;background:rgba(7,12,22,.88);
+         backdrop-filter:blur(8px);border-bottom:1px solid var(--borde)}
+  .sub{margin:2px 0 0;color:var(--tx2);font-size:12.5px}
+  .hud{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .reloj{font:600 15px/1 var(--mono);color:#bae6fd;background:#0b1626;border:1px solid var(--borde);
+         padding:8px 12px;border-radius:8px}
+  .pill{font:600 12px/1 var(--mono);padding:7px 11px;border-radius:999px;border:1px solid var(--borde);
+        background:#0b1626;color:var(--tx2)}
+  .pill.on{color:#bbf7d0;border-color:#166534;background:#052e16}
+  .pill.off{color:#fecaca;border-color:#7f1d1d;background:#2a0b0b}
+  .pill.part{color:#fde68a;border-color:#78350f;background:#2c1a04}
+
+  main{max-width:1440px;margin:0 auto;padding:18px 22px 0}
+  .panel{background:linear-gradient(180deg,var(--panel) 0%,#0a1120 100%);border:1px solid var(--borde);
+         border-radius:14px;padding:18px;margin-bottom:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:1100px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+
+  .barra-global{display:flex;flex-wrap:wrap;gap:10px;align-items:center;max-width:1440px;margin:0 auto;
+                padding:14px 22px 0}
+  .btn{cursor:pointer;border:1px solid var(--borde);background:#16233d;color:var(--tx);
+       padding:9px 14px;border-radius:9px;font:600 13px/1 inherit;transition:.15s}
+  .btn:hover{background:#1e2d4d;transform:translateY(-1px)}
+  .btn.ok{background:#052e16;border-color:#166534;color:#bbf7d0}
+  .btn.bad{background:#2a0b0b;border-color:#7f1d1d;color:#fecaca}
+  .btn.ghost{background:transparent}
+  .btn.chico{padding:6px 10px;font-size:12px}
+  select,input[type=text]{background:#0b1626;color:var(--tx);border:1px solid var(--borde);
+                          border-radius:8px;padding:8px 10px;font:13px var(--mono)}
+  label{color:var(--tx2);font-size:13px;display:inline-flex;gap:7px;align-items:center}
+  .cuenta{font:700 14px/1 var(--mono);color:#fde68a}
+
+  .card{background:linear-gradient(180deg,#0e1a2e 0%,#0a1120 100%);border:1px solid var(--borde);
+        border-top:3px solid var(--c,#475569);border-radius:14px;padding:16px;display:flex;
+        flex-direction:column;gap:11px;transition:box-shadow .2s}
+  .card.viva{box-shadow:0 0 0 1px var(--c) inset,0 0 26px -14px var(--c)}
+  .card-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .dot{width:11px;height:11px;border-radius:50%;background:#475569;flex:none}
+  .card.viva .dot{background:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 25%,transparent);
+                  animation:pulso 1.6s infinite}
+  @keyframes pulso{50%{opacity:.45}}
+  .estado{margin-left:auto;font:700 11px/1 var(--mono);padding:5px 9px;border-radius:999px;
+          border:1px solid #334155;color:#94a3b8}
+  .card.viva .estado{color:#bbf7d0;border-color:#166534;background:#052e16}
+  .dev{font:11.5px/1 var(--mono);color:var(--tx3);width:100%}
+  .resumen{margin:0;color:var(--tx2);font-size:13px;min-height:52px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font:11px/1.4 var(--mono);color:#cbd5e1;background:#0b1626;border:1px solid var(--borde);
+        padding:5px 8px;border-radius:7px}
+  .chip b{color:var(--c);font-weight:700}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center}
+  .kpi{background:#0b1626;border:1px solid var(--borde);border-radius:9px;padding:7px 3px}
+  .kpi span{display:block;font:10px/1.3 var(--mono);color:var(--tx3);text-transform:uppercase}
+  .kpi b{font:700 15px/1.25 var(--mono);color:var(--c)}
+  .payload{font:11.5px/1.45 var(--mono);color:#a5f3fc;background:#071019;border:1px solid #16324a;
+           border-radius:8px;padding:8px 10px;word-break:break-all;height:62px;overflow:hidden}
+  .spark{width:100%;height:64px;display:block;background:#071019;border:1px solid var(--borde);
+         border-radius:8px}
+  .ciclo{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .paso{font:11px/1 var(--mono);color:#cbd5e1;background:#0e1c2e;border:1px solid #1e3a5f;
+        padding:6px 8px;border-radius:7px}
+  .flecha{color:var(--c);font-size:12px}
+  .consola{font:11.5px/1.5 var(--mono);background:#04080f;border:1px solid var(--borde);border-radius:8px;
+           padding:9px 10px;height:118px;overflow:hidden;color:#7f8ea3}
+  .consola div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .consola .bueno{color:#86efac}
+  .consola .malo{color:#fca5a5}
+  .acciones{display:flex;gap:8px}
+  .acciones .btn{flex:1;text-align:center}
+  .gw{font:11.5px/1.4 var(--mono);color:#fed7aa;background:#1c1206;border:1px solid #78350f;
+      border-radius:8px;padding:7px 9px}
+
+
+  /* --- didáctica: cómo viaja el mensaje --- */
+  .nota-carrera{font:11px var(--mono);color:var(--tx3);display:flex;justify-content:space-between;
+                flex-wrap:wrap;gap:10px;margin-bottom:8px}
+  .viaje{background:#0b1626;border:1px solid var(--borde);border-top:3px solid var(--c);
+         border-radius:12px;padding:13px;display:flex;flex-direction:column;gap:9px}
+  .viaje h4{margin:0;font-size:13.5px;color:var(--c);letter-spacing:.5px;text-transform:uppercase}
+  .sub-t{font:10px/1.2 var(--mono);color:var(--tx3);text-transform:uppercase;letter-spacing:.6px}
+  .pila{display:flex;flex-direction:column;gap:3px}
+  .capa{display:flex;justify-content:space-between;gap:10px;font:10.5px/1.35 var(--mono);padding:5px 7px;
+        border-radius:6px;background:#0e1c2e;border-left:3px solid var(--c)}
+  .capa b{color:#e2e8f0;white-space:nowrap}
+  .capa span{color:var(--tx2);text-align:right}
+  .barra-peso{display:flex;height:24px;border-radius:6px;overflow:hidden;border:1px solid var(--borde)}
+  .barra-peso i{display:flex;align-items:center;justify-content:center;font:9.5px var(--mono);
+                font-style:normal;color:#03121e;font-weight:700}
+  .seg-payload{background:#22c55e}
+  .seg-cabecera{background:var(--c)}
+  .sec{display:flex;flex-direction:column;gap:4px}
+  .paso-l{display:grid;grid-template-columns:16px 1fr auto;gap:7px;align-items:center;
+          font:10.5px/1.35 var(--mono);background:#0e1c2e;border:1px solid #1e3a5f;border-radius:6px;padding:5px 7px}
+  .paso-l .d{color:var(--c);font-weight:700;text-align:center}
+  .paso-l .x{color:var(--tx2)}
+  .paso-l .x i{color:var(--tx3)}
+  .paso-l .ms{color:#fde68a;font-weight:700;white-space:nowrap}
+  .kpi-t{font:11.5px/1.5 var(--mono);color:#cbd5e1;background:#071019;border:1px dashed #1e3a5f;
+         border-radius:7px;padding:7px 9px}
+  .kpi-t.fuerte{border-style:solid;border-color:var(--c)}
+  .glosario{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:9px}
+  .glo{background:#0b1626;border:1px solid var(--borde);border-left:3px solid #334155;border-radius:8px;
+       padding:9px 11px}
+  .glo b{display:block;font:600 12px var(--mono);color:#7dd3fc;margin-bottom:3px}
+  .glo span{font-size:12px;color:var(--tx2)}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--borde)}
+  th{color:#cbd5e1;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;background:#0b1626}
+  td b{color:#e0f2fe}
+  tbody tr:hover{background:#0e1a2e}
+  .num{font-family:var(--mono)}
+  canvas{width:100%;display:block;background:#071019;border:1px solid var(--borde);border-radius:10px}
+
+  .cap-lista{display:grid;gap:8px;margin-top:12px}
+  .cap{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#0b1626;border:1px solid var(--borde);
+       border-radius:9px;padding:9px 12px;font-size:12.5px}
+  .cap b{font-family:var(--mono);color:#bae6fd}
+  .nota{color:var(--tx3);font-size:12.5px;margin:8px 0 0}
+  .aviso{background:#1c1206;border:1px solid #78350f;color:#fde68a;border-radius:9px;padding:10px 12px;
+         font-size:13px;margin:10px 0 0}
+  .ok-msg{background:#052e16;border:1px solid #166534;color:#bbf7d0;border-radius:9px;padding:10px 12px;
+          font-size:13px;margin:10px 0 0}
+  code{font-family:var(--mono);background:#0b1626;border:1px solid var(--borde);padding:1px 5px;border-radius:5px}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🎛️ Sala de control · Laboratorio 4 — IoT + Cloud</h1>
+    <p class="sub">MQTT · AMQP 1.0 · CoAP → Azure IoT Central · VM vmtalleresjose (52.237.172.24) ·
+       <a href="https://iotcentraljose.duckdns.org/" target="_blank" rel="noopener">iotcentraljose.duckdns.org</a> (HTTPS)</p>
+  </div>
+  <div class="hud">
+    <span class="reloj" id="reloj">--:--:--</span>
+    <span class="pill" id="pill-global">cargando…</span>
+    <a class="pill" id="pill-app" href="https://{{ info.app }}" target="_blank" rel="noopener">IoT Central ↗</a>
+    <span class="pill on" title="servido por nginx con certificado de Let's Encrypt">🔒 HTTPS</span>
+    <a class="pill" href="/informe" target="_blank">Informe / evidencia ↗</a>
+    <button class="btn ghost chico" id="btn-clave" title="Clave de control">🔑 clave</button>
+    <label><input type="checkbox" id="auto" checked> auto 2.5 s</label>
+  </div>
+</header>
+
+<div class="barra-global">
+  <label>Intervalo
+    <select id="intervalo">
+      <option value="2">2 s · demo</option>
+      <option value="3" selected>3 s</option>
+      <option value="5">5 s</option>
+      <option value="10">10 s · formal</option>
+    </select>
+  </label>
+  <button class="btn ok" id="b-todos">▶ Iniciar los 3</button>
+  <button class="btn bad" id="b-parar">⏹ Detener los 3</button>
+  <button class="btn" id="b-prueba">⏱ Corrida cronometrada 90 s + captura</button>
+  <span class="cuenta" id="cuenta"></span>
+</div>
+
+<main>
+  <section class="grid3" id="tarjetas"></section>
+
+  <section class="panel" id="didactica">
+    <h2>🔬 Cómo viaja el mensaje · en vivo</h2>
+    <div class="nota-carrera">
+      <span>Cada punto es un mensaje real: sale de la VM y llega a IoT Central. La caja muestra el salto de cada protocolo.</span>
+      <span>velocidad relativa (los tres sobre la misma escala) · los ms reales están en cada tarjeta</span>
+    </div>
+    <canvas id="cv-carrera" style="height:230px"></canvas>
+    <div class="grid3" id="viaje" style="margin-top:14px"></div>
+  </section>
+
+  <section class="panel">
+    <h2>📖 Glosario del laboratorio</h2>
+    <div class="glosario" id="glosario"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Comparativa en vivo</h2>
+    <div class="grid2">
+      <div><canvas id="cv-barras" style="height:250px"></canvas></div>
+      <div><canvas id="cv-series" style="height:250px"></canvas></div>
+    </div>
+    <table style="margin-top:16px">
+      <thead><tr><th>Criterio</th><th>MQTT</th><th>AMQP 1.0</th><th>CoAP (UDP)</th></tr></thead>
+      <tbody id="tb-teorico"></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Arquitectura real desplegada</h2>
+    {% include '_diagrama.html' %}
+  </section>
+
+  <section class="panel" id="evidencia">
+    <h2>📸 Evidencia para el informe</h2>
+    <div class="barra-global" style="padding:0">
+      <button class="btn ok" id="b-capturar">📸 Capturar evidencia de esta corrida</button>
+      <input type="text" id="nota" placeholder="nota para la captura (ej: corrida 90 s, 3 protocolos)" style="min-width:320px">
+      <a class="btn" id="b-zip" href="/api/paquete.zip">⬇ Descargar paquete (.zip)</a>
+      <a class="btn" href="/informe" target="_blank">🖨️ Página de informe</a>
+      <a class="btn" id="b-carpeta" href="#" target="_blank" hidden>📂 Abrir última captura</a>
+    </div>
+    <p class="nota">Una captura copia los <code>live*.jsonl</code> y los logs de stdout, calcula las métricas
+      (n, promedio, mín, máx, bytes) y genera <code>reporte.md</code> + gráficas PNG listas para pegar
+      en el informe y en la bitácora.</p>
+    <div id="cap-aviso"></div>
+    <div class="cap-lista" id="cap-lista"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Características por capa (para la tabla comparativa)</h2>
+    <table>
+      <thead><tr><th>Protocolo</th><th>Overhead</th><th>Firewall / NAT</th><th>MCU / ESP32</th><th>Debug</th></tr></thead>
+      <tbody id="tb-capas"></tbody>
+    </table>
+    <p class="nota">Recomendación de capa: <b>MQTT</b> en el dispositivo (ESP32/Wokwi) ·
+      <b>AMQP</b> entre servicios Azure / plataforma propia (Labs 5–8) ·
+      <b>CoAP</b> solo para nodos muy constrained con gateway propio.</p>
+  </section>
+</main>
+
+<script>
+const CFG    = {{ meta|tojson }};
+const COLOR  = {{ color|tojson }};
+const INFO   = {{ info|tojson }};
+const GLOSARIO = {{ glosario|tojson }};
+const ORDEN  = ["mqtt","amqp","coap"];
+const NOMBRE = {"mqtt":"MQTT","amqp":"AMQP 1.0","coap":"CoAP"};
+let clave = localStorage.getItem("dashKey") || "";
+let ultimo = null;
+let cuentaRegresiva = null;
+
+const $ = (s) => document.querySelector(s);
+const fmt = (v, u="") => (v === null || v === undefined) ? "—" : v + u;
+
+/* ---------------------------------------------------------------- clave */
+function pedirClave(){
+  const k = prompt("Clave de control (DASH_KEY). Déjala vacía si el servidor no exige clave:");
+  if (k !== null){ clave = k.trim(); localStorage.setItem("dashKey", clave); }
+}
+$("#btn-clave").onclick = pedirClave;
+
+/* ---------------------------------------------------------------- acciones */
+async function accion(ruta, cuerpo){
+  const r = await fetch("/api/" + ruta, {
+    method:"POST",
+    headers:{"Content-Type":"application/json","X-Dash-Key":clave},
+    body: JSON.stringify(cuerpo || {})
+  });
+  if (r.status === 401){ aviso("Esa acción necesita la clave de control (botón 🔑).", "aviso"); pedirClave(); return null; }
+  const j = await r.json().catch(()=>({}));
+  await refrescar();
+  return j;
+}
+const iv = () => parseFloat($("#intervalo").value);
+
+$("#b-todos").onclick = () => accion("todos/iniciar", {intervalo: iv()});
+$("#b-parar").onclick = () => accion("todos/detener");
+
+$("#b-prueba").onclick = async () => {
+  const seg = 90;
+  const j = await accion("prueba/iniciar", {intervalo: iv(), segundos: seg});
+  if (!j) return;
+  clearInterval(cuentaRegresiva);
+  let resto = seg;
+  const pinta = () => { $("#cuenta").textContent = "⏱ corrida formal en curso: " + resto + " s (intervalo "
+    + j.intervalo + " s) — al terminar se captura sola"; };
+  pinta();
+  cuentaRegresiva = setInterval(async ()=>{
+    resto--;
+    if (resto > 0){ pinta(); return; }
+    clearInterval(cuentaRegresiva);
+    $("#cuenta").textContent = "📸 capturando evidencia…";
+    const cap = await capturar("corrida formal " + seg + " s con los 3 protocolos");
+    $("#cuenta").textContent = cap ? "✅ evidencia capturada" : "";
+    setTimeout(()=>{ $("#cuenta").textContent = ""; }, 8000);
+  }, 1000);
+};
+
+/* ---------------------------------------------------------------- evidencia */
+function aviso(txt, tipo){
+  const cont = $("#cap-aviso");
+  cont.innerHTML = txt ? '<div class="' + tipo + '">' + txt + "</div>" : "";
+}
+$("#b-capturar").onclick = () => capturar("");
+$("#nota").addEventListener("keydown", e => { if (e.key === "Enter") capturar(""); });
+
+async function capturar(nota){
+  if (!nota) nota = $("#nota").value;
+  aviso("⏳ capturando… (copia de logs, resumen, gráficas)", "aviso");
+  const r = await fetch("/api/evidencia", {
+    method:"POST", headers:{"Content-Type":"application/json","X-Dash-Key":clave},
+    body: JSON.stringify({nota: nota})
+  });
+  if (r.status === 401){ aviso("Necesita la clave de control (botón 🔑).", "aviso"); pedirClave(); return null; }
+  const j = await r.json().catch(()=>({}));
+  if (!j.ok){ aviso("Error al capturar: " + (j.error || "desconocido"), "aviso"); return null; }
+  const c = j.captura, P = c.protocolos;
+  let filas = "";
+  for (const p of ORDEN){
+    const m = P[p];
+    filas += "<tr><td><b>" + NOMBRE[p] + "</b></td><td class='num'>" + m.n + "</td><td class='num'>"
+      + fmt(m.avg, " ms") + "</td><td class='num'>" + fmt(m.min) + " / " + fmt(m.max) + "</td><td class='num'>"
+      + fmt(m.bytes_msg, " B") + "</td></tr>";
+  }
+  aviso("<b>✅ Evidencia capturada</b> en <code>evidencias/" + c.carpeta + "/</code> · "
+      + c.archivos.length + " archivos"
+      + (c.graficas_ok ? " (gráficas PNG incluidas)" : " (⚠ gráficas no generadas: " + c.graficas_msg + ")")
+      + "<table style='margin-top:10px'><thead><tr><th>Protocolo</th><th>n</th><th>promedio</th>"
+      + "<th>mín / máx</th><th>bytes/msg</th></tr></thead><tbody>" + filas + "</tbody></table>",
+      "ok-msg");
+  $("#b-carpeta").hidden = false;
+  $("#b-carpeta").href = "/evidencias/" + c.carpeta + "/reporte.md";
+  await listarCapturas();
+  return c;
+}
+
+async function listarCapturas(){
+  const j = await (await fetch("/api/capturas")).json();
+  const cont = $("#cap-lista");
+  if (!j.capturas.length){ cont.innerHTML = "<p class='nota'>Todavía no hay capturas.</p>"; return; }
+  let h = "";
+  for (const c of j.capturas.slice(0, 8)){
+    h += "<div class='cap'><b>" + c.nombre + "</b><span class='nota'>"
+      + c.archivos.filter(a=>a.endsWith(".jsonl")).length + " jsonl · "
+      + c.pngs.length + " png</span>"
+      + "<span style='margin-left:auto'></span>"
+      + "<a class='btn chico' href='/evidencias/capturas/" + c.nombre + "/reporte.md' target='_blank'>reporte.md</a>"
+      + c.pngs.map(p => "<a class='btn chico' href='/evidencias/capturas/" + c.nombre + "/" + p + "' target='_blank'>"
+          + p.replace(".png","") + "</a>").join("")
+      + "</div>";
+  }
+  cont.innerHTML = h;
+}
+
+/* ---------------------------------------------------------------- tarjetas */
+function esqueleto(p){
+  const meta = CFG[p], c = COLOR[p];
+  return `<article class="card" id="card-${p}" style="--c:${c}">
+    <div class="card-h">
+      <span class="dot"></span><h3>${meta.titulo}</h3>
+      <span class="estado" data-f="estado">DETENIDO</span>
+      <span class="dev">device: ${meta.device} · ${meta.script}</span>
+    </div>
+    <p class="resumen">${meta.resumen}</p>
+    <div class="chips">
+      <span class="chip">puerto <b>${meta.puerto}</b></span>
+      <span class="chip">transporte <b>${meta.transporte}</b></span>
+      <span class="chip">modelo <b>${meta.modelo}</b></span>
+      <span class="chip">fiabilidad <b>${meta.fiabilidad}</b></span>
+      <span class="chip">TLS <b>${meta.tls}</b></span>
+      <span class="chip">destino <b>${meta.destino}</b></span>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>mensajes</span><b data-f="n">—</b></div>
+      <div class="kpi"><span>última</span><b data-f="last">—</b></div>
+      <div class="kpi"><span>promedio</span><b data-f="avg">—</b></div>
+      <div class="kpi"><span>mín</span><b data-f="min">—</b></div>
+      <div class="kpi"><span>máx</span><b data-f="max">—</b></div>
+    </div>
+    <div class="payload" data-f="payload">(sin telemetría todavía)</div>
+    <canvas class="spark" data-f="spark"></canvas>
+    <div class="ciclo" data-f="ciclo"></div>
+    ${p === "coap" ? '<div class="gw" data-f="gw">gateway: —</div>' : ""}
+    <div class="consola" data-f="consola"><div>esperando salida del script…</div></div>
+    <div class="acciones">
+      <button class="btn ok chico" data-a="iniciar">▶ Iniciar</button>
+      <button class="btn bad chico" data-a="detener">⏹ Detener</button>
+    </div>
+  </article>`;
+}
+
+function pintarTarjetas(){
+  $("#tarjetas").innerHTML = ORDEN.map(esqueleto).join("");
+  for (const p of ORDEN){
+    const card = $("#card-" + p);
+    card.querySelector('[data-a="iniciar"]').onclick = () => accion("protocolo/" + p + "/iniciar", {intervalo: iv()});
+    card.querySelector('[data-a="detener"]').onclick = () => accion("protocolo/" + p + "/detener");
+    card.querySelector('[data-f="ciclo"]').innerHTML = CFG[p].ciclo
+      .map((s,i) => (i ? '<span class="flecha">→</span>' : "") + '<span class="paso">' + s + "</span>").join("");
+  }
+  let h = "";
+  const filas = [
+    ["Modelo", "pub/sub por topics", "peer-to-peer (links + créditos)", "request/response (CON)"],
+    ["Puerto / transporte", "8883 TCP+TLS", "5671 TCP+TLS", "5683 UDP (sin TLS en el salto)"],
+    ["Fiabilidad observada", "PUBACK QoS 1", "disposition SendComplete", "2.04 Changed + retransmisión CON"],
+    ["Overhead", "cabecera mínima (2 B fijos) + TLS", "handshake pesado (TLS+CBS+attach ≈ 430 ms)", "cabecera mínima (4 B) + UDP sin TLS"],
+    ["Firewall / NAT", "8883 a veces bloqueado (443/WS)", "5671 / 443 AMQP-WS", "UDP 5683 suele pasar, sin garantía"],
+    ["MCU / ESP32", "soporte maduro", "poco usado en MCU", "ideal constrained (RFC 7252)"],
+    ["Integración con IoT Central", "nativa", "nativa", "requiere gateway propio"],
+    ["Debug", "muy fácil (mosquitto/Wireshark)", "medio (frames binarios AMQP)", "medio-fácil (mensajes pequeños)"]
+  ];
+  for (const f of filas) h += "<tr><td>" + f[0] + "</td><td>" + f[1] + "</td><td>" + f[2] + "</td><td>" + f[3] + "</td></tr>";
+  $("#tb-teorico").innerHTML = h;
+  $("#tb-capas").innerHTML = ORDEN.map(p => {
+    const c = CFG[p].cards;
+    return "<tr><td><b style='color:" + COLOR[p] + "'>" + CFG[p].titulo + "</b></td>"
+      + c.map(x => "<td><b>" + x[0] + ":</b> " + x[1] + "</td>").join("") + "</tr>";
+  }).join("");
+}
+
+/* ---------------------------------------------------------------- canvas */
+function prep(cv){
+  const r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+  const w = Math.max(r.width, 60), h = Math.max(r.height, 40);
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
+  return {ctx, w, h};
+}
+
+function spark(cv, serie, color){
+  const {ctx, w, h} = prep(cv);
+  const vals = serie.map(s => s[1]);
+  if (vals.length < 2) return;
+  const mn = Math.min(...vals), mx = Math.max(...vals), rango = (mx - mn) || 1;
+  const X = i => 4 + i * (w - 8) / (vals.length - 1);
+  const Y = v => h - 6 - ((v - mn) / rango) * (h - 14);
+  const grad = ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0, color + "55"); grad.addColorStop(1, color + "00");
+  ctx.beginPath(); ctx.moveTo(X(0), h);
+  vals.forEach((v,i) => ctx.lineTo(X(i), Y(v)));
+  ctx.lineTo(X(vals.length-1), h); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+  ctx.beginPath(); vals.forEach((v,i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(0), Y(v)));
+  ctx.strokeStyle = color; ctx.lineWidth = 1.7; ctx.stroke();
+  ctx.beginPath(); ctx.arc(X(vals.length-1), Y(vals[vals.length-1]), 3, 0, 7); ctx.fillStyle = color; ctx.fill();
+  ctx.fillStyle = "#64748b"; ctx.font = "10px ui-monospace,monospace";
+  ctx.fillText("mín " + mn.toFixed(1) + " · máx " + mx.toFixed(1) + " ms", 6, 12);
+}
+
+function ejes(ctx, w, h, mn, mx, pad){
+  ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1; ctx.font = "10px ui-monospace,monospace";
+  ctx.fillStyle = "#64748b";
+  for (let i = 0; i <= 4; i++){
+    const y = pad + i * (h - 2*pad) / 4;
+    ctx.beginPath(); ctx.moveTo(pad+34, y); ctx.lineTo(w-8, y); ctx.stroke();
+    const v = mx - i * (mx - mn) / 4;
+    ctx.fillText(v.toFixed(0), 6, y + 3);
+  }
+}
+
+function barras(cv, filas){
+  const {ctx, w, h} = prep(cv);
+  const pad = 34;
+  if (!filas.length){ return; }
+  const mx = Math.max(...filas.map(f => f.v)) * 1.25 || 1;
+  ejes(ctx, w, h, 0, mx, pad);
+  const ancho = (w - pad - 20) / filas.length;
+  filas.forEach((f,i) => {
+    const x = pad + 6 + i * ancho, bh = (f.v / mx) * (h - 2*pad - 18);
+    const y = h - pad - bh;
+    const grad = ctx.createLinearGradient(0,y,0,h-pad);
+    grad.addColorStop(0, f.c); grad.addColorStop(1, f.c + "55");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, ancho - 22, bh, 6); else ctx.rect(x, y, ancho - 22, bh);
+    ctx.fill();
+    ctx.fillStyle = "#e2e8f0"; ctx.font = "600 12px ui-monospace,monospace"; ctx.textAlign = "center";
+    ctx.fillText(f.v.toFixed(1) + " ms", x + (ancho - 22)/2, y - 6);
+    ctx.fillStyle = "#94a3b8"; ctx.font = "11px ui-monospace,monospace";
+    ctx.fillText(f.n, x + (ancho - 22)/2, h - pad + 15);
+    ctx.textAlign = "left";
+  });
+  ctx.fillStyle = "#64748b"; ctx.font = "10px ui-monospace,monospace";
+  ctx.fillText("latencia promedio (ms) · muestra de la corrida en vivo", pad, 12);
+}
+
+function series(cv, conjuntos){
+  const {ctx, w, h} = prep(cv);
+  const pad = 34;
+  const todos = conjuntos.flatMap(c => c.vals);
+  if (todos.length < 2) return;
+  let mn = Math.min(...todos), mx = Math.max(...todos);
+  const m = (mx - mn) * 0.12 || 1; mn = Math.max(0, mn - m); mx = mx + m;
+  ejes(ctx, w, h, mn, mx, pad);
+  conjuntos.forEach(c => {
+    const n = c.vals.length;
+    const X = i => pad + 6 + i * (w - pad - 20) / Math.max(n - 1, 1);
+    const Y = v => h - pad - ((v - mn) / (mx - mn)) * (h - 2*pad);
+    ctx.beginPath();
+    c.vals.forEach((v,i) => i ? ctx.lineTo(X(i), Y(v)) : ctx.moveTo(X(0), Y(v)));
+    ctx.strokeStyle = c.c; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = c.c;
+    c.vals.forEach((v,i) => { ctx.beginPath(); ctx.arc(X(i), Y(v), 2.6, 0, 7); ctx.fill(); });
+  });
+  ctx.font = "11px ui-monospace,monospace";
+  conjuntos.forEach((c,i) => {
+    const y = 12 + i * 14;
+    ctx.fillStyle = c.c; ctx.fillRect(pad + 6, y - 8, 14, 3);
+    ctx.fillStyle = "#cbd5e1"; ctx.fillText(c.n, pad + 26, y);
+  });
+  ctx.fillStyle = "#64748b"; ctx.font = "10px ui-monospace,monospace";
+  ctx.fillText("ms", 6, h - pad - 2);
+}
+
+/* ---------------------------------------------------------------- didáctica */
+function pintarViaje(){
+  const maxBytes = 68;                    // 60 B de datos + la cabecera más grande (8 B)
+  document.querySelector("#viaje").innerHTML = ORDEN.map(p => {
+    const m = CFG[p];
+    const pila = m.capas.map(([n, d]) =>
+      `<div class="capa"><b>${n}</b><span>${d}</span></div>`).join("");
+    const wDat = (60 / maxBytes * 100).toFixed(1);
+    const wCab = Math.max(m.cable.cabecera / maxBytes * 100, 7).toFixed(1);
+    const sec = m.secuencia.map((s, i) =>
+      `<div class="paso-l"><span class="d">${s.dir}</span>` +
+      `<span class="x">${s.texto}${s.nota ? " · <i>" + s.nota + "</i>" : ""}</span>` +
+      `<span class="ms" data-ms="${p}-${i}">${s.ms ? "—" : ""}</span></div>`).join("");
+    return `<div class="viaje" style="--c:${COLOR[p]}">
+      <h4>${m.titulo}</h4>
+      <div class="sub-t">1 · pila de protocolos</div>
+      <div class="pila">${pila}</div>
+      <div class="sub-t">2 · peso de cada mensaje</div>
+      <div class="barra-peso">
+        <i class="seg-payload" style="width:${wDat}%">60 B datos</i>
+        <i class="seg-cabecera" style="width:${wCab}%">${m.cable.cabecera} B</i>
+      </div>
+      <span style="font-size:10.5px;color:var(--tx3)">${m.cable.nota} · ${m.nota_seq}</span>
+      <div class="sub-t">3 · último intercambio (secuencia real)</div>
+      <div class="sec">${sec}</div>
+      <div class="sub-t">4 · qué mide la latencia de la tarjeta</div>
+      <div class="kpi-t">${m.kpi}</div>
+      <div class="sub-t">5 · cuándo usarlo</div>
+      <div class="kpi-t fuerte">${m.cuando}</div>
+    </div>`;
+  }).join("");
+}
+
+function pintarGlosario(){
+  document.querySelector("#glosario").innerHTML = GLOSARIO.map(([t, d]) =>
+    `<div class="glo"><b>${t}</b><span>${d}</span></div>`).join("");
+}
+
+function actualizarViaje(p, info){
+  const sec = CFG[p].secuencia;
+  for (let i = 0; i < sec.length; i++){
+    if (!sec[i].ms) continue;
+    const el = document.querySelector('[data-ms="' + p + "-" + i + '"]');
+    if (!el) continue;
+    const v = sec[i].ms === "gw_last" ? (info.gateway && info.gateway.metrica.last) : info.metrica[sec[i].ms];
+    el.textContent = (v === null || v === undefined) ? "—" : v + " ms";
+  }
+}
+
+/* --- carrera de latencia: un punto por mensaje real --- */
+const carrera = {dots: [], raf: null};
+const seqVisto = {};
+
+function dibujarCarrera(){
+  const cv = document.querySelector("#cv-carrera");
+  if (!cv) return;
+  const {ctx, w, h} = prep(cv);
+  const x0 = 96, x1 = w - 136, top = 20;
+  const carril = (h - top - 8) / 3, ahora = performance.now();
+  ctx.font = "10px ui-monospace,monospace";
+  ctx.fillStyle = "#64748b";
+  ctx.fillText("VM", x0 - 30, top - 7);
+  ctx.textAlign = "right";
+  ctx.fillText("IoT Central ☁", w - 8, top - 7);
+  ctx.textAlign = "left";
+  ORDEN.forEach((p, i) => {
+    const y = top + i * carril, cy = y + carril / 2 - 2;
+    ctx.fillStyle = i % 2 ? "#0a1425" : "#0d1a2e";
+    ctx.fillRect(2, y - 9, w - 4, carril - 5);
+    ctx.strokeStyle = "#1e293b"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x0, cy); ctx.lineTo(x1, cy); ctx.stroke();
+    ctx.fillStyle = COLOR[p]; ctx.font = "700 11px ui-monospace,monospace";
+    ctx.fillText(NOMBRE[p], 10, cy + 4);
+  });
+  carrera.dots = carrera.dots.filter(d => {
+    const i = ORDEN.indexOf(d.p);
+    const cy = top + i * carril + carril / 2 - 2;
+    const t = Math.min((ahora - d.t0) / d.dur, 1);
+    const x = x0 + t * (x1 - x0);
+    ctx.beginPath(); ctx.arc(x, cy, 5.5, 0, 7);
+    ctx.fillStyle = COLOR[d.p]; ctx.shadowColor = COLOR[d.p]; ctx.shadowBlur = 14;
+    ctx.fill(); ctx.shadowBlur = 0;
+    if (t >= 1){
+      ctx.fillStyle = "#fde68a"; ctx.font = "700 11px ui-monospace,monospace";
+      ctx.textAlign = "right"; ctx.fillText(d.ms + " ms", x1 - 8, cy + 4); ctx.textAlign = "left";
+    }
+    return (ahora - d.t0) < d.dur + 1100;
+  });
+  if (!carrera.dots.length && !ultimo){
+    ctx.fillStyle = "#475569"; ctx.font = "11px ui-monospace,monospace";
+    ctx.fillText("inicia los protocolos para ver la carrera de latencia", x0, h - 3);
+  }
+}
+
+function bucleCarrera(){
+  dibujarCarrera();
+  carrera.raf = carrera.dots.length ? requestAnimationFrame(bucleCarrera) : null;
+}
+
+function lanzarCarrera(d){
+  const vals = ORDEN.map(p => d.protocolos[p].metrica.last).filter(v => v);
+  const mn = vals.length ? Math.min(...vals) : 100;
+  const mx = vals.length ? Math.max(...vals) : 200;
+  for (const p of ORDEN){
+    const m = d.protocolos[p].metrica;
+    if (seqVisto[p] === undefined){ seqVisto[p] = m.seq; continue; }
+    if (m.seq && m.seq !== seqVisto[p] && m.last){
+      seqVisto[p] = m.seq;
+      carrera.dots.push({p: p, ms: m.last, t0: performance.now(),
+                         dur: 900 + (m.last - mn) / Math.max(mx - mn, 0.5) * 1500});
+    }
+  }
+  if (carrera.dots.length && !carrera.raf) carrera.raf = requestAnimationFrame(bucleCarrera);
+  else if (!carrera.raf) dibujarCarrera();
+}
+
+/* ---------------------------------------------------------------- pintado */
+function pintaEstado(d){
+  ultimo = d;
+  let vivas = 0;
+  for (const p of ORDEN){
+    const info = d.protocolos[p], card = $("#card-" + p);
+    const viva = !!info.corriendo;
+    if (viva) vivas++;
+    card.classList.toggle("viva", viva);
+    card.querySelector('[data-f="estado"]').textContent = viva
+      ? "CORRIENDO" + (info.duracion !== null ? " · " + info.duracion + " s" : "")
+        + (info.reinicios ? " · " + info.reinicios + " reinicio(s) del vigilante" : "")
+      : "DETENIDO";
+    const m = info.metrica;
+    card.querySelector('[data-f="n"]').textContent = m.total;
+    card.querySelector('[data-f="last"]').textContent = fmt(m.last);
+    card.querySelector('[data-f="avg"]').textContent = fmt(m.avg);
+    card.querySelector('[data-f="min"]').textContent = fmt(m.min);
+    card.querySelector('[data-f="max"]').textContent = fmt(m.max);
+    card.querySelector('[data-f="payload"]').textContent = m.payload
+      ? JSON.stringify(m.payload) + "  (" + m.bytes + " B, seq " + m.seq + ", " + (m.t || "") + " UTC"
+        + (m.payload_de === "gateway" ? " · visto por el gateway" : "") + ")"
+      : "(sin telemetría todavía)";
+    spark(card.querySelector('[data-f="spark"]'), m.serie, COLOR[p]);
+    const gwd = card.querySelector('[data-f="gw"]');
+    if (gwd){
+      const g = info.gateway || {metrica:{}, corriendo:false};
+      gwd.innerHTML = "gateway CoAP (coap-gateway-01): " + (g.corriendo ? "🟢 escuchando udp/5683" : "🔴 detenido")
+        + " · reenvíos " + (g.metrica.total ?? 0) + " · forwarding prom "
+        + fmt(g.metrica.avg, " ms") + " · último " + fmt(g.metrica.last, " ms");
+    }
+    actualizarViaje(p, info);
+    const con = card.querySelector('[data-f="consola"]');
+    const lineas = (info.consola || []).slice(-7);
+    con.innerHTML = lineas.length
+      ? lineas.map(l => '<div class="' + (/Error|Traceback|TIMEOUT|refused|Failure/.test(l) ? "malo" : "bueno") + '">'
+          + l.replace(/</g,"&lt;") + "</div>").join("")
+      : "<div>esperando salida del script…</div>";
+  }
+  lanzarCarrera(d);
+
+  const pill = $("#pill-global");
+  pill.textContent = vivas + "/3 protocolos en vivo";
+  pill.className = "pill " + (vivas === 3 ? "on" : vivas ? "part" : "off");
+
+  barras($("#cv-barras"), ORDEN.map(p => ({n:NOMBRE[p], v:d.protocolos[p].metrica.avg || 0, c:COLOR[p]}))
+    .filter(f => f.v > 0));
+  series($("#cv-series"), ORDEN.map(p => ({
+    n: NOMBRE[p], c: COLOR[p],
+    vals: d.protocolos[p].metrica.serie.map(s => s[1]).slice(-40)
+  })).filter(s => s.vals.length > 1));
+}
+
+async function refrescar(){
+  try{
+    const r = await fetch("/api/estado", {cache:"no-store"});
+    pintaEstado(await r.json());
+    $("#reloj").textContent = new Date().toLocaleTimeString("es-CO");
+  }catch(e){ $("#pill-global").textContent = "sin conexión con el dashboard"; $("#pill-global").className = "pill off"; }
+}
+
+let timer = setInterval(refrescar, 2500);
+$("#auto").onchange = (e) => {
+  clearInterval(timer);
+  if (e.target.checked) timer = setInterval(refrescar, 2500);
+};
+
+pintarTarjetas();
+pintarViaje();
+pintarGlosario();
+refrescar();
+listarCapturas();
+window.addEventListener("resize", () => dibujarCarrera());
+</script>
+</body>
+</html>

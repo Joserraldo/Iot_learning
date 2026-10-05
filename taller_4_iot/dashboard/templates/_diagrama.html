@@ -1,0 +1,73 @@
+<svg viewBox="0 0 1040 430" width="100%" role="img" aria-label="Arquitectura del laboratorio 4">
+  <defs>
+    <marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="flecha-verde" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <style>
+    .caja{fill:#0f172a;stroke:#334155;stroke-width:1.2;rx:10}
+    .vm{fill:#0b1626;stroke:#475569;stroke-width:1.4;stroke-dasharray:6 5;rx:14}
+    .t{fill:#e2e8f0;font:600 13px ui-sans-serif,system-ui,Segoe UI,sans-serif}
+    .s{fill:#94a3b8;font:400 11px ui-monospace,Consolas,monospace}
+    .p{fill:#cbd5e1;font:600 11px ui-monospace,Consolas,monospace}
+    .linea{stroke:#64748b;stroke-width:1.6;fill:none;marker-end:url(#flecha)}
+    .linea-v{stroke:#34d399;stroke-width:1.6;fill:none;marker-end:url(#flecha-verde)}
+    .nube{fill:#111c33;stroke:#3b82f6;stroke-width:1.3;rx:12}
+  </style>
+
+  <!-- IoT Central -->
+  <rect class="nube" x="360" y="16" width="330" height="80"/>
+  <text class="t" x="525" y="43" text-anchor="middle">Azure IoT Central</text>
+  <text class="s" x="525" y="62" text-anchor="middle">clima-salones-app-jose · plantilla consola-unab-ambiental</text>
+  <text class="s" x="525" y="80" text-anchor="middle">Temperature · Humidity · Iluminance</text>
+
+  <!-- VM -->
+  <rect class="vm" x="20" y="126" width="1000" height="288"/>
+  <text class="t" x="40" y="150">VM Azure · vmtalleresjose · 52.237.172.24 · Ubuntu 24.04 (North Central US)</text>
+  <text class="s" x="40" y="168">https://iotcentraljose.duckdns.org  ·  nginx + Let's Encrypt (TLS) → gunicorn 127.0.0.1:8080</text>
+
+  <!-- MQTT -->
+  <rect class="caja" x="50" y="200" width="230" height="120"/>
+  <text class="t" x="70" y="226">Cliente MQTT</text>
+  <text class="s" x="70" y="246">python/mqtt_baseline.py</text>
+  <text class="s" x="70" y="264">paho-mqtt (explícito, sin SDK)</text>
+  <text class="s" x="70" y="282">device mqtt-baseline-01</text>
+  <text class="p" x="70" y="302">TCP + TLS · puerto 8883</text>
+
+  <!-- AMQP -->
+  <rect class="caja" x="330" y="200" width="230" height="120"/>
+  <text class="t" x="350" y="226">Cliente AMQP 1.0</text>
+  <text class="s" x="350" y="246">python/amqp_sdk.py</text>
+  <text class="s" x="350" y="264">uamqp (SDK 2.x ya no trae AMQP)</text>
+  <text class="s" x="350" y="282">device amqp-lab4-01</text>
+  <text class="p" x="350" y="302">TCP + TLS · puerto 5671</text>
+
+  <!-- CoAP -->
+  <rect class="caja" x="700" y="200" width="290" height="120"/>
+  <text class="t" x="720" y="226">Nodo CoAP constrained</text>
+  <text class="s" x="720" y="246">python/coap_client.py</text>
+  <text class="s" x="720" y="264">aiocoap · POST JSON a /telemetry</text>
+  <text class="p" x="720" y="284">CoAP sobre UDP · puerto 5683</text>
+  <text class="s" x="720" y="302">sin TLS en este salto</text>
+
+  <rect class="caja" x="700" y="334" width="290" height="66"/>
+  <text class="t" x="720" y="357">Gateway CoAP propio</text>
+  <text class="s" x="720" y="375">python/coap_gateway.py · responde 2.04 Changed</text>
+  <text class="s" x="720" y="391">puente con device coap-gateway-01</text>
+
+  <!-- flujos -->
+  <path class="linea" d="M165 200 L165 96 L360 96"/>
+  <text class="p" x="172" y="122" fill="#38bdf8">MQTT 8883 · publica JSON 60 B</text>
+  <path class="linea" d="M445 200 L445 96 L470 96"/>
+  <text class="p" x="452" y="122" fill="#a78bfa">AMQP 5671 · send → disposition</text>
+  <path class="linea" d="M770 320 L770 334"/>
+  <text class="p" x="778" y="330" fill="#34d399">POST /telemetry (CoAP UDP 60 B)</text>
+  <path class="linea-v" d="M700 370 L672 370 L672 96"/>
+  <text class="p" x="664" y="250" fill="#34d399" text-anchor="middle" transform="rotate(-90 664 250)">puente MQTT 8883 → Central</text>
+
+  <text class="s" x="40" y="404">CoAP no es nativo de IoT Central: el gateway es el componente intermedio que recibe el datagrama y reenvía la telemetría con su propio cliente SDK.</text>
+</svg>

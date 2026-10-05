@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evidencia Lab 4 — {{ cap.ts_label }}</title>
+<style>
+  :root{--bg:#f8fafc;--tx:#0f172a;--tx2:#475569;--borde:#cbd5e1;--mqtt:#0284c7;--amqp:#7c3aed;--coap:#059669}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);
+       font:15px/1.6 ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif}
+  .hoja{max-width:1080px;margin:0 auto;background:#fff;padding:34px 44px 60px;
+        box-shadow:0 0 0 1px var(--borde)}
+  h1{font-size:23px;margin:0 0 4px}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.6px;color:var(--tx2);
+     border-bottom:2px solid var(--tx);padding-bottom:5px;margin:30px 0 12px}
+  .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 22px;font-size:13px;
+        color:var(--tx2);margin:14px 0 0}
+  .meta b{color:var(--tx)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0}
+  th,td{border:1px solid var(--borde);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef2f7;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  td.num,th.num{text-align:center;font-family:ui-monospace,Consolas,monospace}
+  .destacar{background:#ecfdf5}
+  canvas{width:100%;display:block}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+  .grid img{width:100%;border:1px solid var(--borde);border-radius:6px}
+  pre{background:#0f172a;color:#e2e8f0;padding:14px 16px;border-radius:8px;overflow:auto;
+      font:12px/1.5 ui-monospace,Consolas,monospace;max-height:420px}
+  .barra{position:sticky;top:0;display:flex;gap:10px;align-items:center;background:#0f172a;color:#e2e8f0;
+         padding:10px 20px;margin:-34px -44px 24px}
+  .btn{cursor:pointer;background:#1d4ed8;color:#fff;border:0;padding:8px 14px;border-radius:7px;
+       font:600 13px inherit}
+  .btn.g{background:#334155}
+  .nota{color:var(--tx2);font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="hoja">
+  <div class="barra">
+    <b>Evidencia Lab 4</b>
+    <span style="opacity:.7;font-size:13px">captura: {{ cap.ts_label }}</span>
+    <span style="margin-left:auto"></span>
+    <button class="btn" onclick="window.print()">🖨️ Imprimir / PDF</button>
+    <a class="btn g" href="/informe" style="text-decoration:none">↻ Actualizar</a>
+    <a class="btn g" href="/" style="text-decoration:none">← Sala de control</a>
+  </div>
+
+  <h1>Laboratorio 4 — Evidencia de funcionamiento de los 3 protocolos</h1>
+  <p class="nota">MQTT · AMQP 1.0 · CoAP hacia Azure IoT Central — medición real ejecutada en la VM.</p>
+  <div class="meta">
+    <div><b>Estudiante:</b> {{ info.estudiante }}</div>
+    <div><b>Materia:</b> {{ info.materia }}</div>
+    <div><b>App IoT Central:</b> {{ info.app }}</div>
+    <div><b>VM:</b> {{ info.vm }}</div>
+    <div><b>Captura:</b> {{ cap.iso_local }} (UTC {{ cap.iso }})</div>
+    <div><b>Intervalo de publicación:</b> {{ cap.intervalo }} s</div>
+    <div><b>Carpeta:</b> evidencias/capturas/{{ carpeta or "—" }}</div>
+    <div><b>Nota:</b> {{ cap.nota or "—" }}</div>
+  </div>
+
+  <h2>1. Telemetría publicada por protocolo</h2>
+  <table>
+    <thead><tr>
+      <th>Protocolo</th><th>Device</th><th>Endpoint destino</th><th class="num">Puerto</th>
+      <th class="num">n</th><th class="num">Latencia prom.</th><th class="num">mín</th><th class="num">máx</th>
+      <th class="num">Bytes/msg</th>
+    </tr></thead>
+    <tbody>
+    {% for p in ["mqtt","amqp","coap"] %}
+      {% set m = cap.protocolos[p] %}{% set d = meta[p] %}
+      <tr>
+        <td><b>{{ d.titulo }}</b><br><span class="nota">{{ d.transporte }} · TLS: {{ d.tls }}</span></td>
+        <td>{{ d.device }}<br><span class="nota">{{ d.script }}</span></td>
+        <td>{{ d.destino }}</td>
+        <td class="num">{{ d.puerto }}</td>
+        <td class="num">{{ m.n }}</td>
+        <td class="num"><b>{{ m.avg }} ms</b></td>
+        <td class="num">{{ m.min }}</td>
+        <td class="num">{{ m.max }}</td>
+        <td class="num">{{ m.bytes_msg }} B</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <p class="nota">
+    {% if cap.protocolos.amqp.avg_sin_primero %}
+      AMQP: el primer mensaje ({{ cap.protocolos.amqp.primero }} ms) incluye el handshake completo
+      (TLS + CBS + attach); en estado estacionario el promedio es
+      <b>{{ cap.protocolos.amqp.avg_sin_primero }} ms</b>.
+    {% endif %}
+    {% if cap.protocolos.coap_gw %}
+      · CoAP: RTT del datagrama promedio <b>{{ cap.protocolos.coap.avg }} ms</b>; el <i>forwarding</i> del
+      gateway hacia Central promedió <b>{{ cap.protocolos.coap_gw.avg }} ms</b>
+      (n={{ cap.protocolos.coap_gw.n }}); el salto CoAP/UDP local es submilisegundo.
+    {% endif %}
+  </p>
+
+  <h2>2. Gráficas de la captura</h2>
+  {% if pngs %}
+    <div class="grid">
+      {% for png in pngs %}
+        <figure style="margin:0">
+          <img src="/evidencias/capturas/{{ carpeta }}/{{ png }}" alt="{{ png }}">
+          <figcaption class="nota">{{ png }}</figcaption>
+        </figure>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="nota">Esta captura no tiene PNG (matplotlib no disponible en la VM al capturar).</p>
+  {% endif %}
+
+  <h2>3. Tabla comparativa (teórico vs observado)</h2>
+  <table>
+    <thead><tr><th>Criterio</th><th>MQTT</th><th>AMQP 1.0</th><th>CoAP (UDP)</th></tr></thead>
+    <tbody>
+      <tr><td>Modelo de comunicación</td><td>pub/sub por topics</td><td>peer-to-peer (links + créditos)</td><td>request/response (mensajes CON)</td></tr>
+      <tr><td>Puerto / transporte</td><td>8883 TCP+TLS</td><td>5671 TCP+TLS</td><td>5683 UDP (sin TLS en el salto)</td></tr>
+      <tr class="destacar"><td>Latencia observada (VM)</td>
+        <td class="num">{{ cap.protocolos.mqtt.avg }} ms</td>
+        <td class="num">{{ cap.protocolos.amqp.avg }} ms{% if cap.protocolos.amqp.avg_sin_primero %} <span class="nota">(steady {{ cap.protocolos.amqp.avg_sin_primero }} ms)</span>{% endif %}</td>
+        <td class="num">{{ cap.protocolos.coap.avg }} ms RTT{% if cap.protocolos.coap_gw %} + {{ cap.protocolos.coap_gw.avg }} ms forwarding{% endif %}</td></tr>
+      <tr><td>Fiabilidad</td><td>PUBACK QoS 1</td><td>disposition <code>SendComplete</code></td><td>2.04 Changed + retransmisión CON</td></tr>
+      <tr><td>Overhead</td><td>cabecera MQTT mínima (2 B fijos) + TLS</td><td>handshake pesado: TLS + CBS + attach (≈ 430 ms la 1ª vez)</td><td>cabecera CoAP mínima (4 B) + UDP sin TLS</td></tr>
+      <tr><td>Firewall / NAT</td><td>8883 a veces bloqueado (443/WS)</td><td>5671 / 443 AMQP-WS</td><td>UDP 5683 suele pasar, sin garantía</td></tr>
+      <tr><td>Microcontrolador (ESP32)</td><td>soporte maduro (paho/Arduino)</td><td>poco usado en MCU</td><td>ideal para constrained (RFC 7252)</td></tr>
+      <tr><td>Integración con IoT Central</td><td><b>nativa</b></td><td><b>nativa</b></td><td><b>requiere gateway propio</b></td></tr>
+      <tr><td>Facilidad de debug</td><td>muy fácil</td><td>media (frames binarios)</td><td>media-fácil</td></tr>
+      <tr><td>Caso de uso ideal</td><td>telemetría ligera de sensores</td><td>mensajería entre servicios Azure</td><td>nodo constrained en red local</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. Arquitectura real desplegada</h2>
+  {% include '_diagrama.html' %}
+
+  <h2>5. Reporte generado (listo para pegar)</h2>
+  {% if reporte_md %}<pre>{{ reporte_md }}</pre>
+  {% else %}<p class="nota">Sin reporte.md (haz una captura desde la sala de control).</p>{% endif %}
+</div>
+</body>
+</html>

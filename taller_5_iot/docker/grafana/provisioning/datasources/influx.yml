@@ -1,0 +1,14 @@
+apiVersion: 1
+datasources:
+  - name: InfluxDB-Lab5
+    uid: influx-lab5
+    type: influxdb
+    access: proxy            # Grafana hace de proxy: el navegador nunca ve el token
+    url: http://influxdb:8086
+    jsonData:
+      version: Flux
+      organization: ${INFLUX_ORG}
+      defaultBucket: ${INFLUX_BUCKET}
+      httpMode: POST
+    secureJsonData:
+      token: ${INFLUX_TOKEN_READER}   # auth Flux documentada por Grafana

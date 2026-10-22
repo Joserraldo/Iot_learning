@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 5 — Cómo viaja un mensaje (plataforma propia)</title>
+<style>
+  :root{ --bg:#0d1117; --card:#161b22; --border:#30363d; --txt:#e6edf3;
+         --dim:#8b949e; --acc:#58a6ff; --ok:#3fb950; --warn:#d29922; --red:#f85149; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+       font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;padding:24px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--dim);margin-bottom:20px}
+  .fila{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--border);
+        border-radius:10px;padding:14px 16px;flex:1;min-width:220px}
+  .card h3{margin:0 0 6px;font-size:13px;text-transform:uppercase;
+           letter-spacing:.06em;color:var(--dim)}
+  .big{font-size:26px;font-weight:700}
+  .k{font-size:12px;color:var(--dim)}
+  .etapas{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-bottom:20px}
+  .etapa{background:var(--card);border:1px solid var(--border);border-radius:10px;
+         padding:12px;flex:1;min-width:170px;position:relative}
+  .etapa b{display:block;font-size:14px;margin-bottom:2px}
+  .etapa .v{font-size:12px;color:var(--dim);font-family:ui-monospace,Consolas,monospace}
+  .flecha{align-self:center;color:var(--acc);font-size:20px;padding:0 2px}
+  table{width:100%;border-collapse:collapse;font:12.5px ui-monospace,Consolas,monospace}
+  th{color:var(--dim);text-align:left;font-weight:600;padding:6px 8px;
+     border-bottom:1px solid var(--border)}
+  td{padding:5px 8px;border-bottom:1px solid #21262d;white-space:nowrap}
+  .ok{color:var(--ok)} .bad{color:var(--red)} .warn{color:var(--warn)}
+  a.btn{display:inline-block;background:var(--acc);color:#0d1117;text-decoration:none;
+        padding:10px 18px;border-radius:8px;font-weight:700;margin:6px 8px 6px 0}
+  h2{font-size:16px;margin:26px 0 10px}
+  details{background:var(--card);border:1px solid var(--border);border-radius:10px;
+          padding:10px 14px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600}
+  .nota{color:var(--dim);font-size:13px;margin-top:4px}
+</style>
+</head>
+<body>
+  <h1>🧪 Lab 5 — ¿Cómo viaja un mensaje en la plataforma propia?</h1>
+  <div class="sub">Escenario consola ambiental UNAB · Temperature / Humidity / Iluminance ·
+    una lectura nueva cada 60 s, acumulando la toma de <b>4 días</b>. Actualiza cada 2.5 s.</div>
+
+  <div class="etapas">
+    <div class="etapa"><b>1 · Publicador</b><span class="v">publisher.py — genera la lectura y publica MQTT QoS 1</span></div>
+    <div class="flecha">→</div>
+    <div class="etapa"><b>2 · Mosquitto</b><span class="v">broker local · topic <code>lab5/telemetria</code> · puerto 1883 (solo red interna)</span></div>
+    <div class="flecha">→</div>
+    <div class="etapa"><b>3 · Ingestor</b><span class="v">ingest.py — se suscribe, mide el salto y escribe line protocol</span></div>
+    <div class="flecha">→</div>
+    <div class="etapa"><b>4 · InfluxDB</b><span class="v">TSDB · bucket <code>telemetria</code> · precisión de nanosegundos</span></div>
+    <div class="flecha">→</div>
+    <div class="etapa"><b>5 · Grafana</b><span class="v">lee con Flux (token de solo lectura) y vigila el umbral 32 °C</span></div>
+  </div>
+
+  <div class="fila">
+    <div class="card"><h3>Mensajes publicados</h3><div class="big" id="n-pub">—</div><div class="k">líneas en live-publisher.jsonl</div></div>
+    <div class="card"><h3>Publicados → broker (puback)</h3><div class="big" id="puback">—</div><div class="k">ms promedio · confirmación QoS 1 medida en el cliente</div></div>
+    <div class="card"><h3>Broker → ingestor (hop)</h3><div class="big" id="hop">—</div><div class="k">ms promedio · mismo reloj de la VM</div></div>
+    <div class="card"><h3>Escritos a InfluxDB</h3><div class="big" id="ing-ok">—</div><div class="k">respuesta HTTP 204 = aceptado</div></div>
+  </div>
+
+  <a class="btn" href="{{ grafana_url }}" target="_blank">📊 Abrir Grafana — dashboard de 4 días →</a>
+  <div class="nota">La alerta: si Temperature &gt; 32 °C se mantiene 2 minutos, Grafana dispara y envía email por Brevo (SMTP). El rango físico del escenario es 16–32 °C, así que la alerta <b>nunca dispara sola</b> — se fuerza con <code>publisher.py --caliente</code> (esa es la prueba del laboratorio).</div>
+
+  <h2>🔬 Últimos mensajes publicados (evidencia cruda, tal como la pide la rúbrica)</h2>
+  <table id="t-pub"><thead><tr><th>#</th><th>hora UTC</th><th>°C</th><th>%HR</th><th>lux</th><th>bytes</th><th>puback ms</th></tr></thead><tbody></tbody></table>
+
+  <h2>📥 Últimas escrituras en la TSDB</h2>
+  <table id="t-ing"><thead><tr><th>#</th><th>hora UTC</th><th>hop ms</th><th>Influx</th><th>payload</th></tr></thead><tbody></tbody></table>
+
+  <h2>📖 Glosario del recorrido</h2>
+  <details><summary>¿Qué es puback y por qué lo medimos?</summary><div class="nota">MQTT QoS 1 dice "al menos una vez": el cliente envía el mensaje y espera el PUBACK del broker. <code>puback_ms</code> es cuánto tardó ese ida-y-vuelta dentro de la VM — el análogo local de las latencias WAN que medimos con IoT Central en el Lab 4.</div></details>
+  <details><summary>¿Qué es hop_ms?</summary><div class="nota">El publicador estampa <code>ts_ns</code> (reloj del kernel de la VM) al crear el payload; el ingestor lo lee al recibirlo. La diferencia es cuánto vive el mensaje en el broker (enrutado + cola + entrega). Como ambos contenedores comparten el reloj de la misma VM, la medida es directa — no compara relojes de dos máquinas.</div></details>
+  <details><summary>¿Por qué InfluxDB y no Mongo/Postgres?</summary><div class="nota">Influx es TSDB: comprime series por hora de datos, retención configurable y Grafana la soporta nativamente con Flux. Mongo es documento (no serie temporal) y Supabase es nube externa — este laboratorio exige plataforma propia en la VM.</div></details>
+  <details><summary>¿Por qué la temperatura sube sola hasta 32 y se detiene?</summary><div class="nota">El random-walk ±0.5 está recortado (clamp) al rango físico del escenario, igual que en los Labs 2–4. El modo <code>--caliente</code> la fuerza a 33–38 °C — simulando el salón sobrecalentado que la alerta debe detectar.</div></details>
+
+<script>
+async function tick(){
+  try{
+    const j = await (await fetch("api/estado",{cache:"no-store"})).json();
+    document.getElementById("n-pub").textContent = j.publicados;
+    document.getElementById("puback").textContent = (j.puback_ms_avg ?? "—") + " ms";
+    document.getElementById("hop").textContent = (j.hop_ms_avg ?? "—") + " ms";
+    document.getElementById("ing-ok").textContent = j["ingest"] ? j.influx_ok + " / " + j.ingeridos : "—";
+    const tb = document.querySelector("#t-pub tbody");
+    tb.innerHTML = (j.publisher||[]).map(p=>{const t=p.payload;return `<tr><td>${p.seq}</td><td>${p.t.replace('T',' ').replace('Z','')}</td><td class="${t.Temperature>32?'bad':''}">${t.Temperature}</td><td>${t.Humidity}</td><td>${t.Iluminance}</td><td>${p.bytes}</td><td class="ok">${p.puback_ms}</td></tr>`}).join("");
+    const ti = document.querySelector("#t-ing tbody");
+    ti.innerHTML = (j.ingest||[]).map(i=>`<tr><td>${i.seq}</td><td>${i.t.replace('T',' ').replace('Z','')}</td><td>${i.hop_ms}</td><td class="${i.influx_status===204?'ok':'bad'}">${i.influx_status ?? i.error ?? '—'}</td><td>T=${i.payload.Temperature} H=${i.payload.Humidity} L=${i.payload.Iluminance}</td></tr>`).join("");
+  }catch(e){ /* el servidor puede reiniciar; el proximo tick recupera */ }
+}
+tick(); setInterval(tick, 2500);
+</script>
+</body>
+</html>

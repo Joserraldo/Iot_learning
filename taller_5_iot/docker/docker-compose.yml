@@ -1,0 +1,105 @@
+name: taller5
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: taller5-mosquitto
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mqtt_data:/mosquitto/data
+    restart: always
+    mem_limit: 64m
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: taller5-influxdb
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_USERNAME}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_API_TOKEN}
+    volumes:
+      - influx_data:/var/lib/influxdb2
+    restart: always
+    mem_limit: 320m
+    # SIN "ports": Influx no escucha en el host. Solo lo ven, por la red
+    # interna del compose, ingest (escritura) y grafana (lectura proxy).
+    # decision: aislamos la BD del visualizador como contenedores separados.
+
+  ingest:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.python
+    container_name: taller5-ingest
+    command: ["python", "-u", "python/ingest.py"]
+    environment:
+      MQTT_HOST: mosquitto
+      INFLUX_URL: http://influxdb:8086
+      INFLUX_ORG: ${INFLUX_ORG}
+      INFLUX_BUCKET: ${INFLUX_BUCKET}
+      INFLUX_TOKEN: ${INFLUX_API_TOKEN}
+      LIVE_JSONL: /data/evidencias/live-ingest.jsonl
+    volumes:
+      - ../evidencias:/data/evidencias
+    restart: always
+    depends_on: [mosquitto, influxdb]
+    mem_limit: 96m
+
+  publisher:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.python
+    container_name: taller5-publisher
+    command: ["python", "-u", "python/publisher.py", "--interval", "60"]
+    environment:
+      MQTT_HOST: mosquitto
+      LIVE_JSONL: /data/evidencias/live-publisher.jsonl
+    volumes:
+      - ../evidencias:/data/evidencias
+    restart: always
+    depends_on: [mosquitto]
+    mem_limit: 96m
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: taller5-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_SERVER_ROOT_URL: https://iotcentraljose.duckdns.org/taller5/grafana/
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: smtp-relay.brevo.com:587
+      GF_SMTP_USER: ${BREVO_EMAIL}
+      GF_SMTP_PASSWORD: ${BREVO_SMTP_KEY}
+      # nota: BREVO_EMAIL es el USUARIO SMTP que Brevo asigna (b8cab…@smtp-brevo.com,
+      # ver GET /v3/account → relay.data.userName), no el email de la cuenta;
+      # FROM puede ser el email propio:
+      GF_SMTP_FROM_ADDRESS: ${BREVO_FROM}
+      GF_SMTP_FROM_NAME: Lab5 IoT UNAB
+      ALERT_TO_EMAIL: ${ALERT_TO_EMAIL}
+      # para la sustitucion $ENV del provisioning (datasource influx):
+      INFLUX_ORG: ${INFLUX_ORG}
+      INFLUX_BUCKET: ${INFLUX_BUCKET}
+      INFLUX_TOKEN_READER: ${INFLUX_TOKEN_READER}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "127.0.0.1:3000:3000"   # solo loopback: se entra por nginx con TLS
+    restart: always
+    depends_on: [influxdb]
+    mem_limit: 256m
+
+volumes:
+  mqtt_data: {}
+  influx_data: {}
+  grafana_data: {}

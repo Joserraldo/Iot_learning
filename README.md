@@ -6,7 +6,7 @@ solución IoT completa: generación de telemetría, dispositivos simulados, cone
 segura con Azure IoT Central, ejecución de nodos en una VM, control remoto,
 medición de protocolos y análisis de resultados.
 
-> **Estado:** laboratorios 1 a 4 desarrollados. Cada carpeta contiene su código,
+> **Estado:** laboratorios 1 a 5 desarrollados. Cada carpeta contiene su código,
 > instrucciones, bitácora y, cuando aplica, informes y evidencias de ejecución.
 
 ## Recorrido del curso
@@ -17,6 +17,7 @@ medición de protocolos y análisis de resultados.
 | [Taller 2](taller_2_iot/) | Sistema IoT conectado a Azure IoT Central | Nodo Python en VM, dashboard Flask y ESP32 simulado con Wokwi |
 | [Taller 3](taller_3_iot/) | MQTT explícito: abrir la caja negra del SDK de Azure | Cliente `paho-mqtt`, DPS, SAS, gemelo, comandos y mediciones de QoS |
 | [Taller 4](taller_4_iot/) | Comparación de MQTT, AMQP y CoAP | Tres clientes, gateway CoAP, dashboard de control y comparación experimental |
+| [Taller 5](taller_5_iot/) | Plataforma propia en la VM: MQTT → InfluxDB → Grafana con alerta | Stack propio en Docker Compose, TSDB, dashboard de 4 días, regla de alerta por umbral y toma por bloques |
 
 La solución usa como modelo de datos común la plantilla
 `consola-unab-ambiental`, con las variables de telemetría:
@@ -57,6 +58,12 @@ La solución usa como modelo de datos común la plantilla
 - Cliente AMQP 1.0 explícito con `uamqp`.
 - Gateway CoAP sobre UDP que traduce mensajes a MQTT para IoT Central.
 - Captura de logs JSONL, métricas y gráficas comparativas.
+- Plataforma propia en la VM (Taller 5): broker **Mosquitto**, TSDB **InfluxDB
+  2.7** y **Grafana OSS 11.2** en Docker Compose, con Grafana aislado de la base
+  de datos mediante un token de solo lectura.
+- Regla de alerta por umbral en Grafana (**media de temperatura > 32 °C durante
+  2 min → email por Brevo SMTP**), provisionada como código y disparada de
+  forma forzada desde el publicador.
 
 ## Estructura del repositorio
 
@@ -73,10 +80,17 @@ Iot_learning/
 │   ├── mqtt_explicito.py
 │   ├── evidencias/
 │   └── docs/
-└── taller_4_iot/                 # AMQP + CoAP vs MQTT
-    ├── python/
-    ├── dashboard/
-    ├── evidencias/
+├── taller_4_iot/                 # AMQP + CoAP vs MQTT
+│   ├── python/
+│   ├── dashboard/
+│   ├── evidencias/
+│   └── tools/
+└── taller_5_iot/                 # Plataforma propia: MQTT → InfluxDB → Grafana
+    ├── docker/                   # compose + provisioning de Grafana (alerta) como código
+    ├── python/                   # publisher.py, ingest.py, test_python.py
+    ├── dashboard/                # página didáctica Flask
+    ├── evidencias/               # anexo gráfico (4 PNG) + logs crudos
+    ├── Informe_Lab5_Jose_Tellez_U00060479.pdf
     └── tools/
 ```
 
@@ -86,10 +100,11 @@ respectiva práctica:
 - [Taller 2 — Sistema IoT en Azure](taller_2_iot/README.md)
 - [Taller 3 — MQTT explícito](taller_3_iot/README.md)
 - [Taller 4 — AMQP + CoAP vs MQTT](taller_4_iot/README.md)
+- [Taller 5 — Plataforma propia (MQTT → InfluxDB → Grafana)](taller_5_iot/README.md)
 
 Las bitácoras explican decisiones, problemas encontrados y verificaciones:
-[Taller 2](taller_2_iot/docs/bitacora.md), [Taller 3](taller_3_iot/docs/bitacora.md)
-y [Taller 4](taller_4_iot/docs/bitacora.md).
+[Taller 2](taller_2_iot/docs/bitacora.md), [Taller 3](taller_3_iot/docs/bitacora.md),
+[Taller 4](taller_4_iot/docs/bitacora.md) y [Taller 5](taller_5_iot/docs/bitacora.md).
 
 ## Tecnologías y protocolos
 
@@ -101,6 +116,7 @@ y [Taller 4](taller_4_iot/docs/bitacora.md).
 | Mensajería | MQTT 3.1.1, AMQP 1.0 y CoAP (RFC 7252) |
 | Seguridad | TLS, SAS y HMAC-SHA256 |
 | Observabilidad | Logs JSONL, métricas de latencia, gráficas y dashboard |
+| Plataforma propia (Taller 5) | Mosquitto, InfluxDB 2.7 + Flux, Grafana OSS 11.2, Docker Compose, nginx + Let's Encrypt, Brevo SMTP |
 
 ### Hallazgos técnicos destacados
 
@@ -213,6 +229,28 @@ La comparación formal usa corridas controladas y evidencia en
 [`taller_4_iot/evidencias/`](taller_4_iot/evidencias/). El informe resume
 latencia, tamaño de payload, confiabilidad, handshake y casos de uso de cada
 protocolo.
+
+### Taller 5
+
+Aquí deja de usarse la nube gestionada y se monta **una plataforma propia**
+dentro de la VM: broker MQTT, TSDB y visualizador con alertas, todo en Docker
+Compose y servido por nginx con TLS. El [README del taller 5](taller_5_iot/README.md)
+trae la arquitectura, el despliegue y los comandos:
+
+```bash
+cd taller_5_iot
+cd docker
+docker compose up -d --build        # broker + ingestor + influxdb + grafana + nginx
+bash crear_token_reader.sh          # token SOLO-LECTURA para que Grafana lea la TSDB
+docker compose up -d grafana
+```
+
+El informe final está en [`informe-lab5.md`](taller_5_iot/informe-lab5.md) y
+en [`Informe_Lab5_Jose_Tellez_U00060479.pdf`](taller_5_iot/Informe_Lab5_Jose_Tellez_U00060479.pdf);
+el anexo gráfico (arquitectura, dashboard de 4 días, página didáctica y la toma
+por bloques con sus huecos) está en
+[`taller_5_iot/evidencias/`](taller_5_iot/evidencias/), con los logs crudos que
+respaldan cada medición.
 
 ## Reproducibilidad y evidencias
 

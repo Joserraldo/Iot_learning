@@ -1,0 +1,90 @@
+{
+  "uid": "lab5",
+  "title": "Lab 5 — Consola ambiental UNAB (4 dias)",
+  "tags": ["lab5", "unab"],
+  "timezone": "America/Bogota",
+  "editable": true,
+  "refresh": "1m",
+  "time": { "from": "now-4d", "to": "now" },
+  "panels": [
+    {
+      "id": 1, "type": "timeseries", "title": "Temperatura (°C) — alerta: > 32 °C",
+      "description": "Que mira el operador: la temperatura del salon. La linea roja es el umbral de la alerta; si la serie la cruza, llega email por Brevo.",
+      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 0 },
+      "datasource": { "type": "influxdb", "uid": "influx-lab5" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "celsius", "min": 10, "max": 40,
+          "custom": { "thresholdsStyle": { "mode": "line" }, "thresholds": {
+            "mode": "absolute",
+            "steps": [ { "color": "green", "value": null }, { "color": "red", "value": 32 } ] } }
+        }, "overrides": []
+      },
+      "targets": [ {
+        "refId": "A",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"Temperature\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+        "editorMode": "code"
+      } ]
+    },
+    {
+      "id": 2, "type": "timeseries", "title": "Humedad (%)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 9 },
+      "datasource": { "type": "influxdb", "uid": "influx-lab5" },
+      "fieldConfig": { "defaults": { "unit": "percent", "min": 30, "max": 75 }, "overrides": [] },
+      "targets": [ {
+        "refId": "A",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"Humidity\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+        "editorMode": "code"
+      } ]
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "Iluminancia (lux)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 9 },
+      "datasource": { "type": "influxdb", "uid": "influx-lab5" },
+      "fieldConfig": { "defaults": { "unit": "lux", "min": 0, "max": 900 }, "overrides": [] },
+      "targets": [ {
+        "refId": "A",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"Iluminance\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+        "editorMode": "code"
+      } ]
+    },
+    {
+      "id": 4, "type": "stat", "title": "Temperatura actual",
+      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 17 },
+      "datasource": { "type": "influxdb", "uid": "influx-lab5" },
+      "fieldConfig": { "defaults": {
+        "unit": "celsius",
+        "thresholds": { "mode": "absolute", "steps": [
+          { "color": "green", "value": null }, { "color": "yellow", "value": 28 }, { "color": "red", "value": 32 } ] }
+      }, "overrides": [] },
+      "targets": [ {
+        "refId": "A",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: -10m)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"Temperature\")\n  |> last()",
+        "editorMode": "code"
+      } ]
+    },
+    {
+      "id": 5, "type": "stat", "title": "Humedad actual",
+      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 17 },
+      "datasource": { "type": "influxdb", "uid": "influx-lab5" },
+      "fieldConfig": { "defaults": { "unit": "percent", "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null } ] } }, "overrides": [] },
+      "targets": [ {
+        "refId": "A",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: -10m)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"Humidity\")\n  |> last()",
+        "editorMode": "code"
+      } ]
+    },
+    {
+      "id": 6, "type": "stat", "title": "Muestras en la ventana",
+      "description": "Total de puntos guardados por InfluxDB en la ventana de 4 dias: la evidencia de que la toma esta corriendo.",
+      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 17 },
+      "datasource": { "type": "influxdb", "uid": "influx-lab5" },
+      "fieldConfig": { "defaults": { "unit": "none" }, "overrides": [] },
+      "targets": [ {
+        "refId": "A",
+        "query": "from(bucket: v.defaultBucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"Temperature\")\n  |> count()",
+        "editorMode": "code"
+      } ]
+    }
+  ]
+}

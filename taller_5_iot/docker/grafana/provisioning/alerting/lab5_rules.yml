@@ -1,0 +1,48 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: lab5-temperatura
+    folder: Lab5
+    interval: 1m
+    rules:
+      - uid: lab5-temp-32
+        title: "Temperatura del salon > 32 C"
+        condition: C
+        noDataState: OK
+        execErrState: OK
+        for: 2m
+        annotations:
+          summary: "La consola ambiental registro temperatura media > 32 C en los ultimos 10 minutos (umbral del escenario: rango fisico 16-32)."
+          runbook_url: "https://iotcentraljose.duckdns.org/taller5/"
+        labels:
+          escenario: consola-unab-ambiental
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: influx-lab5
+            model:
+              refId: A
+              queryType: influxql
+              rawQuery: true
+              query: 'from(bucket: "telemetria") |> range(start: -10m) |> filter(fn: (r) => r._field == "Temperature") |> mean()'
+          - refId: B
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: "__expr__"
+            model:
+              refId: B
+              type: reduce
+              expression: "A"
+              reducer: last
+          - refId: C
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: "__expr__"
+            model:
+              refId: C
+              type: threshold
+              expression: "B"
+              conditions:
+                - type: query
+                  evaluator: { type: gt, params: [32] }
+                  operator: { type: and }
+                  query: { params: ["B"] }
+                  reducer: { type: last, params: [] }

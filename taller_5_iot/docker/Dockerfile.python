@@ -1,0 +1,5 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY python/ python/
+RUN pip install --no-cache-dir "paho-mqtt>=1.6,<2.0" requests
+CMD ["python", "-u", "python/publisher.py"]

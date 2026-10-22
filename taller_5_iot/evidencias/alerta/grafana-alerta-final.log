@@ -1,0 +1,4 @@
+logger=ngalert.sender.router rule_uid=lab5-temp-32 org_id=1 t=2026-10-08T01:32:30.020763497Z level=info msg="Sending alerts to local notifier" count=1
+logger=ngalert.sender.router rule_uid=lab5-temp-32 org_id=1 t=2026-10-08T01:33:30.021854662Z level=info msg="Sending alerts to local notifier" count=1
+logger=ngalert.sender.router rule_uid=lab5-temp-32 org_id=1 t=2026-10-08T01:34:30.019014077Z level=info msg="Sending alerts to local notifier" count=1
+logger=ngalert.sender.router rule_uid=lab5-temp-32 org_id=1 t=2026-10-08T01:35:30.025113904Z level=info msg="Sending alerts to local notifier" count=1
